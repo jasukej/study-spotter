@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  
+  // OPTIONAL CREDENTIALS
+  name String?
+  email String? @unique // to validate uniqueness
+  emailVerified DateTime?
+  image String?
+  hashedPassword String?
+
+  createdAt DateTime @default(now())
+  favouriteIds String[] @db.ObjectId
+
+  // Define array field in source model
+  accounts Account[]
+  reviews Review[]
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId // Prisma JOINs this with 'id' in 'User' model to query
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.String
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String? @db.String
+  session_state String?
+
+  // Define relation field in target model
+  // onDelete: Cascade -> if user is deleted, all related accounts are also deleted
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model StudySpot {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String
+  imgSrc String
+  location Json
+  features String[]
+  noiseLevel Int
+  capacity Int
+  category String
+  userId String @db.ObjectId
+  buildingId String @db.ObjectId
+
+  building Building @relation(fields: [buildingId], references: [id])
+  reviews Review[]
+}
+
+model Building {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  alias String
+  description String
+  address String
+  location Json
+  openHours Json
+  facilities String[]
+
+  studySpot StudySpot []
+}
+
+model Review {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  rating Int
+  liked String // nice thing(s) about the spot
+  disliked String // bad thing(s) about the spot
+  content String
+  datePosted DateTime @default(now())
+  userId String @db.ObjectId
+  studySpotId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id])
+  studySpot StudySpot @relation(fields: [studySpotId], references: [id])
+}
