@@ -73,10 +73,28 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "spin-forward": {
+          from: {
+            transform: 'rotate(0deg)',
+          },
+          to: {
+            transform: 'rotate(60deg)',
+          }
+        },
+        "spin-backward": {
+          from: {
+            transform: 'rotate(60deg)',
+          },
+          to: {
+            transform: 'rotate(0deg)',
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "spin-forward": "spin-forward 0.3s linear",
+        "spin-backward": "spin-backward 0.3s linear",
       },
     },
   },

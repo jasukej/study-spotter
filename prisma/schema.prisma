@@ -65,11 +65,12 @@ model StudySpot {
   noiseLevel Int
   capacity Int
   category String
+  openHours Json //deal with this later, create assigns building openHours if exists
   userId String @db.ObjectId
-  buildingId String @db.ObjectId
+  buildingId String? @db.ObjectId
   createdAt DateTime @default(now())
 
-  building Building @relation(fields: [buildingId], references: [id])
+  building Building? @relation(fields: [buildingId], references: [id])
   reviews Review[]
 }
 

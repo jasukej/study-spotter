@@ -31,7 +31,7 @@ export async function POST(
             data: {
                 name,
                 description,
-                imgSrc: imgSrc,
+                imgSrc,
                 category,
                 location,
                 features,

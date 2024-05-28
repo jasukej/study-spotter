@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 interface NoiseLevelInputProps {
   title: string;
   subtitle: string;
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: number) => void;
+  value: number;
 }
 
 const noiseLevels = [
@@ -40,7 +40,7 @@ const NoiseLevelInput = ({ title, subtitle, onChange, value }:NoiseLevelInputPro
     const [description, setDescription] = useState("");
 
     useEffect(() => {
-        const selectedNoiseLevel = noiseLevels.find(noiseLevel => noiseLevel.label === value);
+        const selectedNoiseLevel = noiseLevels.find(noiseLevel => noiseLevel.level === value);
         if (selectedNoiseLevel) {
             setDescription(selectedNoiseLevel.description);
         } else {
@@ -71,7 +71,9 @@ const NoiseLevelInput = ({ title, subtitle, onChange, value }:NoiseLevelInputPro
         </div>
         <div className="flex flex-col gap-2">
             <select 
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => {
+                    console.log(e.target.value)
+                    onChange(parseInt(e.target.value))}}
                 value={value}
                 className="
                 border
@@ -102,6 +104,9 @@ const NoiseLevelInput = ({ title, subtitle, onChange, value }:NoiseLevelInputPro
                     mt-2
                     bg-orange-700
                     text-sm
+                    text-yellow-light
+                    p-2
+                    rounded-lg
                 ">
                     {description}
                 </div>

@@ -16,10 +16,12 @@ interface UserMenuProps {
 
 const UserMenu = ({ currentUser }:UserMenuProps) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [spinDirection, setSpinDirection] = useState<'forward' | 'backward'>('forward');
 
     const toggleOpen = useCallback(() => {
+        setSpinDirection(isOpen ? 'backward' : 'forward')
         setIsOpen((prev) => !prev)
-    }, []);
+    }, [isOpen]);
 
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
@@ -70,7 +72,14 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
                 bg-white
                 "
             >   
-                <SettingsIcon className="text-black hidden md:block" />
+                <SettingsIcon 
+                    className={`
+                        text-black 
+                        hidden 
+                        md:block 
+                        ${spinDirection === 'forward' ? 
+                                            "animate-spin-forward" : 
+                                            "animate-spin-backward"}`}/>
                 <div className="">
                     <Avatar src={currentUser?.image} />
                 </div>

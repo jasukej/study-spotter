@@ -30,7 +30,6 @@ export default async function Home() {
         2xl:grid-cols-8
         gap-8
       ">
-        <div>
           {spots.map((spot:any) => {
             return (
               <div>
@@ -42,7 +41,6 @@ export default async function Home() {
               </div>
             )
           })}
-        </div>
       </div>
     </Container>
   );

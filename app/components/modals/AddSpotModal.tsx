@@ -56,7 +56,7 @@ const AddSpotModal = () => {
         defaultValues: {
             category: '',
             location: null,
-            imgSrc: '',
+            imgSrc: [],
             name: '',
             description: '',
             features: [],
@@ -77,7 +77,6 @@ const AddSpotModal = () => {
     const features = watch('features');
     const name = watch('name');
     const description = watch('description');
-    const insitution = watch('institution');
 
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {

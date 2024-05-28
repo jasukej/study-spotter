@@ -4,6 +4,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -24,7 +25,11 @@ interface ImageUploadProps {
 const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
   const handleUpload = useCallback(
     (result: any) => {
-      onChange([...value, result.info.secure_url]);
+      const newImage = result.info.secure_url;
+      const arrayNum = value.push(newImage);
+      console.log(arrayNum);
+      console.log(value);
+      onChange(value);
     },
     [onChange, value]
   );
@@ -39,27 +44,71 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
     >
       {({ open }) => {
         return (
-          <div onClick={() => open?.()} className="">
+          <div>
             {value.length > 0 ? (
-              <div>
-                <Carousel> {/* Carousel not working */}
-                  <CarouselContent>
+                <div className="
+                    flex
+                    justify-center
+                    pb-4
+                ">
+                <Carousel 
+                    className="
+                        w-full 
+                        aspect-square
+                        max-w-xs
+                        flex
+                        justify-center
+                        items-center
+                    "
+                > {/* Carousel not working */}
+                  <CarouselContent
+                    className="
+                        h-full
+                        w-full
+                        aspect-square
+                    "
+                  >
                     {value.map((src, index) => (
                       <CarouselItem
                         key={index}
-                        className="md:basis-1/2 lg:basis-1/3"
+                        className="
+                            lg:basis-1/2
+                            min-w-[320px]
+                            ml-[10px]"
                       >
-                        <div className="absolute inset-0 w-full h-full">
-                          <div>Image {index}</div>
-                          <Image src={src} fill={true} alt="Uploaded Image" />
+                        <div className="p-1 h-full w-full">
+                            <Card
+                                className="
+                                    w-full
+                                    h-full
+                                "
+                            >
+                                <CardContent 
+                                    className="
+                                        w-full
+                                        h-full
+                                        relative
+                                        !aspect-square
+                                    ">
+                                            <Image 
+                                                style={{objectFit: "cover"}}
+                                                src={src} 
+                                                fill
+                                                alt="Uploaded Image" 
+                                            />
+                                </CardContent>
+                            </Card>
                         </div>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
                 </Carousel>
-              </div>
+                </div>
             ) : (
               <div
+                onClick={() => open?.()}
                 className="
                             relative
                             cursor-pointer

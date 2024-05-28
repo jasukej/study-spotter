@@ -17,7 +17,7 @@ interface SpotCardProps {
     data: StudySpot & { 
         location: Location; 
         buildingId: string; 
-        imgSrc: string 
+        imgSrc: string[];
     };
     onAction?: (id: string) => void;
     disabled?: boolean;
@@ -50,8 +50,7 @@ const SpotCard = ({
                 console.error('Error fetching building: ', error);
             }
         }
-
-        fetchBuilding();
+        if (data.buildingId) fetchBuilding();
     }, [data.buildingId]);
 
     useEffect(() => {
@@ -135,6 +134,7 @@ const SpotCard = ({
     border-black
     flex-col
     flex
+    h-full
     gap-y-2
     ">
         <div
@@ -147,91 +147,90 @@ const SpotCard = ({
                 fill={true}
                 objectFit="cover"
                 alt = {data.name}
-                src = {data.imgSrc} // revise to include multiple images
+                src = {data.imgSrc[0]} // revise to include multiple images
             />
         </div>
-        <div className="
-            px-4
-            flex-col
-            pb-3
-        ">
+        <div className="">
             <div className="
-                flex
-                flex-row
-                justify-between
-                items-center
+                px-4
+                flex-col
+                pb-3
             ">
                 <div className="
-                    text-lg
-                    font-bold
+                    flex
+                    flex-row
+                    justify-between
+                    items-center
+                    md:min-h-[50px]
                 ">
-                    {data.name}
+                    <div className="
+                        text-lg
+                        font-bold
+                    ">
+                        {data.name}
+                    </div>
+                    <div className="
+                        flex
+                        flex-row
+                        gap-1
+                        items-center
+                    ">
+                        <div>
+                            4.87
+                        </div>
+                            <FaStar />
+                    </div>
+                </div>
+                <div className="
+                    text-neutral-500
+                    flex 
+                    flex-row
+                    gap-x-2
+                    text-sm
+                    md:flex-col
+                ">
+                    {data.buildingId && (
+                        <div className="flex gap-2">
+                            {building ? building.name : "Loading..."}
+                            <div className="md:hidden"> | </div>
+                        </div>
+                    )}
+                    <div>
+                        {distance !== null ? `${distance.toFixed(2)} km away` : 'Calculating...'}
+                    </div>
                 </div>
                 <div className="
                     flex
                     flex-row
-                    gap-1
+                    gap-x-1
                     items-center
+                    text-sm
+                    h-[30px]
+                ">
+                    <FaRegClock />
+                    <div>
+                        {openStatus}
+                    </div>
+                </div>
+                <div className="
+                    rounded-full
+                    bg-orange-main
+                    text-yellow-light
+                    text-sm
+                    font-semibold
+                    px-3
+                    py-[3px]
+                    w-auto
+                    flex
+                    flex-row
+                    justify-between
                 ">
                     <div>
-                        4.87
+                        {getNoiseDescription(data.noiseLevel)}
                     </div>
-                        <FaStar />
-                </div>
-            </div>
-            <div className="
-                text-neutral-500
-                flex 
-                flex-row
-                gap-x-2
-                text-sm
-                md:flex-col
-            ">
-                <div className="
-
-                ">
-                    {building ? building.name : 'Loading...'}
-                </div>
-                <div className="
-                    md:hidden
-                ">
-                |
-                </div>
-                <div>
-                    {distance !== null ? `${distance.toFixed(2)} km away` : 'Calculating...'}
-                </div>
-            </div>
-            <div className="
-                flex
-                flex-row
-                gap-x-2
-                items-center
-                text-sm
-                h-[30px]
-            ">
-                <FaRegClock />
-                <div>
-                    {openStatus}
-                </div>
-            </div>
-            <div className="
-                rounded-full
-                bg-orange-main
-                text-yellow-light
-                text-sm
-                font-semibold
-                px-3
-                py-[3px]
-                w-auto
-                flex
-                flex-row
-                justify-between
-            ">
-                <div>
-                    {getNoiseDescription(data.noiseLevel)}
-                </div>
-                <div>
-                    busy {/* PLACEHOLDER */}
+                    <div>
+                        busy {/* PLACEHOLDER */}
+                    </div>
                 </div>
             </div>
         </div>
