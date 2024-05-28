@@ -55,10 +55,17 @@ const NoiseLevelInput = ({ title, subtitle, onChange, value }:NoiseLevelInputPro
         sm:align-items
     ">
         <div>
-            <div className="text-xl font-semibold">
+            <div className="
+                text-xl 
+                font-semibold
+                md:mt-4"
+            >
                 {title}
             </div>
-            <div className="text-neutral-400">
+            <div className="
+                text-neutral-400 
+                md:hidden"
+            >
                 {subtitle}
             </div>
         </div>

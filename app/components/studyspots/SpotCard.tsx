@@ -15,7 +15,7 @@ interface Location {
 
 interface SpotCardProps {
     data: StudySpot & { 
-        location: Location | null; 
+        location: Location; 
         buildingId: string; 
         imgSrc: string 
     };
@@ -85,7 +85,7 @@ const SpotCard = ({
             
     }, [data.location])
 
-    const getOpenHoursToday = (openHours: any): string => {
+    const getOpenHoursToday = (openHours: any) => {
         const daysOfWeek = [
             "sunday", 
             "monday", 
@@ -185,13 +185,18 @@ const SpotCard = ({
                 flex-row
                 gap-x-2
                 text-sm
+                md:flex-col
             ">
                 <div className="
 
                 ">
                     {building ? building.name : 'Loading...'}
                 </div>
+                <div className="
+                    md:hidden
+                ">
                 |
+                </div>
                 <div>
                     {distance !== null ? `${distance.toFixed(2)} km away` : 'Calculating...'}
                 </div>

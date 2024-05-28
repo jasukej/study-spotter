@@ -22,9 +22,11 @@ const CapacityInput = ({
             <div className="
                 text-xl 
                 text-semibold
+                md:mt-4
             ">{title}</div>
             <div className="
                 text-neutral-400
+                md:hidden
             ">
                 {subtitle}
             </div>

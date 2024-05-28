@@ -11,16 +11,30 @@ interface BuildingInputProps {
   subtitle: string;
   onChange: (value: string) => void;
   selectedBuildingId?: string;
+  institutionId?: string | null;
 }
 
-const BuildingInput: React.FC<BuildingInputProps> = ({ title, subtitle, onChange, selectedBuildingId }) => {
+const BuildingInput: React.FC<BuildingInputProps> = ({ 
+  title, 
+  subtitle, 
+  onChange, 
+  selectedBuildingId,
+  institutionId
+}) => {
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // CHECK IF INSTITUTION IS NULL
+    if(!institutionId) {
+      setBuildings([]);
+      setLoading(false);
+      return;
+    }
+
     const fetchBuildings = async () => {
       try {
-        const response = await axios.get('/api/buildings');
+        const response = await axios.get(`/api/buildings/institution/${institutionId}`);
         setBuildings(response.data);
       } catch (error) {
         console.error('Error fetching buildings:', error);
@@ -30,7 +44,7 @@ const BuildingInput: React.FC<BuildingInputProps> = ({ title, subtitle, onChange
     };
 
     fetchBuildings();
-  }, []);
+  }, [institutionId]);
 
   return (
     <div className="
@@ -45,12 +59,11 @@ const BuildingInput: React.FC<BuildingInputProps> = ({ title, subtitle, onChange
         ">
             {title}
         </div>
-        <div className="text-neutral-400">
-            {subtitle}
-        </div>
       </div>
       {loading ? (
         <div className="min-w-[200px] mt-2 text-neutral-400">Loading buildings...</div>
+      ) : institutionId === null ? (
+        <div className="min-w-[200px] mt-2 text-neutral-400">Not part of an institution</div>
       ) : (
         <select 
             onChange={(e) => onChange(e.target.value)} 

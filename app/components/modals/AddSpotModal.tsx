@@ -23,23 +23,25 @@ import axios from 'axios';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import NameInput from '../inputs/NameInput';
+import InstitutionSelect from '../inputs/InstitutionSelect';
 
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
-    INFO = 2,
-    IMAGES = 3, 
-    DESCRIPTION = 4,
-    FEATURES = 5,
+    INSTITUTION = 2,
+    INFO = 3,
+    IMAGES = 4, 
+    DESCRIPTION = 5,
+    FEATURES = 6,
 }
 
 const AddSpotModal = () => {
     const addSpotModal = useAddSpotModal();
-
     const router = useRouter();
     const [step, setStep] = useState(STEPS.CATEGORY)
     const [position, setPosition] = useState<{ lat: number, lng: number } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedInsitutionId, setSelectedInstitutionId] = useState<string | null>(null);
 
     const {
         register,
@@ -60,7 +62,8 @@ const AddSpotModal = () => {
             features: [],
             noiseLevel: 0,
             capacity: 0, 
-            building: null
+            building: null,
+            institution: null
         }
     })
 
@@ -74,6 +77,7 @@ const AddSpotModal = () => {
     const features = watch('features');
     const name = watch('name');
     const description = watch('description');
+    const insitution = watch('institution');
 
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
@@ -182,6 +186,31 @@ const AddSpotModal = () => {
         )
     }
 
+    if (step === STEPS.INSTITUTION) {
+        bodyContent = (
+            <div>
+                <div className="flex flex-col gap-8">
+                    <Heading 
+                        title="Does the spot belong to an institution?"
+                    />
+                    <InstitutionSelect 
+                        onSelectInstitution={(institutionId) => {
+                            setSelectedInstitutionId(institutionId)
+                        }}
+                        selectedInstitutionId={selectedInsitutionId}
+                    />
+                    <BuildingInput 
+                        title="Building"
+                        subtitle="Which building is this study spot in?"
+                        onChange={(value) => setCustomValue('building', value)}
+                        selectedBuildingId={building}
+                        institutionId={selectedInsitutionId}
+                    />
+                </div>
+            </div>
+        )
+    }
+
     // PT 1: Noise Level
     // PT 2: Building (take select options from mongodb database)
     // PT 3: Capacity (optional)
@@ -208,22 +237,6 @@ const AddSpotModal = () => {
                     />
                 </div>
                 
-                <div className="h-[1px] bg-neutral-300"></div>
-                
-                <div className="">
-                    <div className="md:hidden">
-                        <BiSolidBuildings 
-                            size={30}
-                        />
-                    </div>
-                    <BuildingInput 
-                        title="Building"
-                        subtitle="Which building is this study spot in?"
-                        onChange={(value) => setCustomValue('building', value)}
-                        selectedBuildingId={building}
-                    />
-                </div>
-
                 <div className="h-[1px] bg-neutral-300"></div>
                 
                 <div className="">

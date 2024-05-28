@@ -25,6 +25,9 @@ model User {
 
   createdAt DateTime @default(now())
   favouriteIds String[] @db.ObjectId
+  institutionId String? @db.ObjectId
+
+  institution Institution? @relation(fields: [institutionId], references: [id], onDelete: Cascade)
 
   // Define array field in source model
   accounts Account[]
@@ -56,7 +59,7 @@ model StudySpot {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   description String
-  imgSrc String
+  imgSrc String[]
   location Json
   features String[]
   noiseLevel Int
@@ -64,6 +67,7 @@ model StudySpot {
   category String
   userId String @db.ObjectId
   buildingId String @db.ObjectId
+  createdAt DateTime @default(now())
 
   building Building @relation(fields: [buildingId], references: [id])
   reviews Review[]
@@ -78,7 +82,9 @@ model Building {
   location Json
   openHours Json
   facilities String[]
+  institutionId String @db.ObjectId
 
+  institution Institution @relation(fields: [institutionId], references: [id])
   studySpot StudySpot []
 }
 
@@ -94,4 +100,17 @@ model Review {
 
   user User @relation(fields: [userId], references: [id])
   studySpot StudySpot @relation(fields: [studySpotId], references: [id])
+}
+
+model Institution {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  country String
+  city String  // e.g. Vancouver
+  alias String // e.g. UBC
+  type String  // e.g. University, Vocational school, College, Community college, Distance learning
+  createdAt DateTime @default(now())
+
+  buildings Building[]
+  users User[]
 }
