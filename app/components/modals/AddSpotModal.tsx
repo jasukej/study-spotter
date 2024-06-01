@@ -39,6 +39,7 @@ const AddSpotModal = () => {
     const addSpotModal = useAddSpotModal();
     const router = useRouter();
     const [step, setStep] = useState(STEPS.CATEGORY)
+    const [progress, setProgress] = useState(2)
     const [position, setPosition] = useState<{ lat: number, lng: number } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedInsitutionId, setSelectedInstitutionId] = useState<string | null>(null);
@@ -87,13 +88,15 @@ const AddSpotModal = () => {
     }
 
     const onBack = () => {
+        setStep((step) => step - 1)
         console.log(step);
-        setStep((value) => value - 1)
+        setProgress((value) => value - 14);
     }
     
     const onNext = () => {
+        setStep((step) => step + 1)
         console.log(step);
-        setStep((value) => value + 1)
+        setProgress((value) => value + 14);
     }
 
     const actionLabel = useMemo(() => {
@@ -113,7 +116,8 @@ const AddSpotModal = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (step !== STEPS.FEATURES) {
-            return onNext();
+            onNext();
+            return;
         }
 
         setIsLoading(true);
@@ -132,7 +136,7 @@ const AddSpotModal = () => {
                 variant: "destructive",
                 title: "Study spot created."
             })
-        }).finally (() => {setIsLoading(false)});
+        }).finally(() => {setIsLoading(false)});
         
     }
 
@@ -311,6 +315,7 @@ const AddSpotModal = () => {
 
   return (
     <Modal 
+        progress={progress}
         isOpen={addSpotModal.isOpen}
         onClose={addSpotModal.onClose}
         onSubmit={handleSubmit(onSubmit)}

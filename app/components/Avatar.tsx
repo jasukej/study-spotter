@@ -3,15 +3,18 @@ import React from 'react'
 
 interface AvatarProps {
   src: string | null | undefined
+  alt?: string
+  height?: number
+  width?: number
 }
 
-const Avatar = ({ src }:AvatarProps) => {
+const Avatar = ({ src, alt, height, width }:AvatarProps) => {
   return (
     <Image 
         className="rounded-full"
-        height="30"
-        width="30"
-        alt="Avatar"
+        height={height}
+        width={width}
+        alt={alt || "Avatar"} 
         src={src || "/images/placeholder.jpeg"}
     />
   )

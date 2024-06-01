@@ -29,6 +29,7 @@ export default async function Home() {
         xl:grid-cols-5
         2xl:grid-cols-8
         gap-8
+        mx-2
       ">
           {spots.map((spot:any) => {
             return (

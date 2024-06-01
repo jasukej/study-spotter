@@ -8,6 +8,10 @@ import LoginModal from "./components/modals/LoginModal";
 import { Toaster } from "@/components/ui/toaster";
 import getCurrentUser from "./actions/getCurrentUser";
 import AddSpotModal from "./components/modals/AddSpotModal";
+import '@mantine/core/styles.css';
+import { createTheme, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript } from '@mantine/core';
+import AddReviewModal from "./components/modals/AddReviewModal";
 
 const font = Roboto({
   subsets: ["latin"],
@@ -27,19 +31,34 @@ export default async function RootLayout({
 
   const currentUser = await getCurrentUser();
 
+  const theme = createTheme({
+   // No theme yet
+  });
+
   return (
     <html lang="en">
+    <head>
+      <ColorSchemeScript />
+      <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+      />
+    </head>
       <body className={font.className}>
-        <RegisterModal />
-        <LoginModal />
-        <AddSpotModal />
-        <Navbar currentUser={currentUser} />
-        <div className="pb-20 pt-28">
-          {children}
-        </div>
-        <Toaster />
-        <Footer />
+        <MantineProvider theme={theme}>
+          <RegisterModal />
+          <LoginModal />
+          <AddSpotModal />
+          <AddReviewModal />
+          <Navbar currentUser={currentUser} />
+          <div className="bg-white pb-20 pt-28">
+            {children}
+          </div>
+          <Toaster />
+          <Footer />
+        </MantineProvider>
       </body>
     </html>
+    
   );
 }

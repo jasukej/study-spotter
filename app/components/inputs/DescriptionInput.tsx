@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 interface DescriptionInputProps {
-    title: string;
-    subtitle: string;
+    title?: string;
+    subtitle?: string;
     value: string;
     onChange: (value: string) => void;
 }
@@ -22,12 +22,12 @@ const DescriptionInput = ({
         </div>
     </div>
     <div className="relative">
-    <input 
-        type="textfield"
+    <textarea
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        rows={4}
         className="
             flex 
             w-full
@@ -36,8 +36,11 @@ const DescriptionInput = ({
             focus:border-black
             rounded-md
             p-2
-            overflow-x-auto
+            overflow-y-auto
+            resize-none
+            max-h-[6em] 
         "
+        style={{ lineHeight: '1.5em' }}  
     />
         <label
             className={`

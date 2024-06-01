@@ -96,6 +96,9 @@ const config = {
         "spin-forward": "spin-forward 0.3s linear",
         "spin-backward": "spin-backward 0.3s linear",
       },
+      boxShadow: {
+        'block-shadow': '8px 10px 0px 0 rgba(0, 0, 0, 1)',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

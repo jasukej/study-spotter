@@ -15,8 +15,10 @@ const NameInput = ({
   return (
     <div className="
         flex
-        justify-between
-
+        sm:flex-row
+        sm:justify-between
+        gap-y-2
+        flex-col
     ">
     <div>
         <div className="text-xl text-semibold">

@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 import { FaRegClock, FaStar } from "react-icons/fa"
 import { getDistance } from 'geolib';
 import Image from 'next/image';
+import BookmarkButton from '../BookmarkButton'
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Location {
     lat: number;
@@ -128,14 +130,24 @@ const SpotCard = ({
     }
 
   return (
-    <div className="
+    <div 
+    key={data.id}
+    onClick={() => {router.push(`/studyspot/${data.id}`)}}
+    className="
     rounded-lg
     border
     border-black
+    bg-white
     flex-col
     flex
     h-full
     gap-y-2
+    transition-transform
+    hover:shadow-lg
+    hover:-translate-x-1
+    hover:-translate-y-1
+    transform 
+    duration-50
     ">
         <div
         className="
@@ -149,6 +161,13 @@ const SpotCard = ({
                 alt = {data.name}
                 src = {data.imgSrc[0]} // revise to include multiple images
             />
+            <div className="mt-2 mr-2">
+                <BookmarkButton 
+                    spotId = {data.id}
+                    // @ts-ignore
+                    currentUser = {currentUser} 
+                />
+            </div>
         </div>
         <div className="">
             <div className="
@@ -166,6 +185,7 @@ const SpotCard = ({
                     <div className="
                         text-lg
                         font-bold
+                        leading-tight
                     ">
                         {data.name}
                     </div>
@@ -173,12 +193,18 @@ const SpotCard = ({
                         flex
                         flex-row
                         gap-1
-                        items-center
+                        text-sm
+                        items-start
+                        h-peer
                     ">
-                        <div>
+                        <div className="
+                            -mt-1
+                        ">
                             4.87
                         </div>
-                            <FaStar />
+                            <FaStar 
+                                size={12}
+                            />
                     </div>
                 </div>
                 <div className="
@@ -191,27 +217,51 @@ const SpotCard = ({
                 ">
                     {data.buildingId && (
                         <div className="flex gap-2">
-                            {building ? building.name : "Loading..."}
+                            {building ? 
+                                building.name : 
+                                <Skeleton 
+                                className="
+                                    w-[100px]
+                                    h-[15px]
+                                "
+                                />
+                            }
                             <div className="md:hidden"> | </div>
                         </div>
                     )}
-                    <div>
-                        {distance !== null ? `${distance.toFixed(2)} km away` : 'Calculating...'}
-                    </div>
+                    
+                        {distance ? 
+                            <div>
+                                `${distance.toFixed(2)} km away`
+                            </div> : 
+                        <Skeleton 
+                            className="
+                                h-[15px]
+                                w-[200px]
+                            "
+                        />}
+                    
                 </div>
-                <div className="
-                    flex
-                    flex-row
-                    gap-x-1
-                    items-center
-                    text-sm
-                    h-[30px]
-                ">
-                    <FaRegClock />
-                    <div>
-                        {openStatus}
-                    </div>
-                </div>
+                    {openStatus ?
+                        <div className="
+                        flex
+                        flex-row
+                        gap-x-1
+                        items-center
+                        text-sm
+                        h-[30px]">
+                            <FaRegClock />
+                            {openStatus} 
+                        </div>
+                        : 
+                        <Skeleton 
+                            className="
+                                w-full
+                                h-[20px]
+                                rounded-full
+                            "
+                        />
+                    }
                 <div className="
                     rounded-full
                     bg-orange-main

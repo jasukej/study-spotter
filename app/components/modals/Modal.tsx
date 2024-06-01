@@ -3,8 +3,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Close } from '@mui/icons-material'
 import Button from '../Button';
+import { Progress } from "@/components/ui/progress"
 
 interface ModalProps {
+    progress?: number,
     isOpen?: boolean,
     onClose: () => void;
     onSubmit: () => void;
@@ -18,6 +20,7 @@ interface ModalProps {
 }
 
 const Modal = ({
+    progress,
     isOpen,
     onClose,
     onSubmit,
@@ -154,6 +157,8 @@ const Modal = ({
                             {title}
                         </div>
                     </div>
+                    
+                    <Progress value={progress} className="w-full" />
 
                     <div className="relative p-6 flex-auto">
                         {body}

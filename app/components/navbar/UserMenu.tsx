@@ -9,6 +9,7 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import useAddSpotModal from '@/app/hooks/useAddSpotModel';
+import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
     currentUser?: User | null;
@@ -17,6 +18,7 @@ interface UserMenuProps {
 const UserMenu = ({ currentUser }:UserMenuProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const [spinDirection, setSpinDirection] = useState<'forward' | 'backward'>('forward');
+    const router = useRouter();
 
     const toggleOpen = useCallback(() => {
         setSpinDirection(isOpen ? 'backward' : 'forward')
@@ -45,7 +47,11 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
                 lg:block
                 font-semibold
                 text-sm
-                hover:bg-neutral-300
+                hover:bg-amber-600
+                duration-30
+                rounded-full
+                py-2
+                px-2
                 transition 
                 cursor-pointer
                 text-yellow-light
@@ -81,7 +87,11 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
                                             "animate-spin-forward" : 
                                             "animate-spin-backward"}`}/>
                 <div className="">
-                    <Avatar src={currentUser?.image} />
+                    <Avatar 
+                        src={currentUser?.image}
+                        height={30}
+                        width={30}
+                    />
                 </div>
             </div>
         </div>
@@ -106,15 +116,15 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
                     {currentUser ? (
                         <>
                             <MenuItem 
-                                onClick={() => {}}
+                                onClick={() => {router.push('/profile')}}
                                 label="My Profile"
                             />
                             <MenuItem 
-                                onClick={() => {}}
+                                onClick={() => {router.push('/favourites')}}
                                 label="My Favourites"
                             />
                             <MenuItem 
-                                onClick={() => {}}
+                                onClick={() => {router.push('/reviews')}}
                                 label="My Reviews"
                             />
                             <MenuItem 
