@@ -20,13 +20,21 @@ const options = {
   fullscreenControl: false,
 }
 
+interface OpeningHours {
+  [key: string]: string; // e.g., { "monday": "8:30 AM - 5:30 PM" }
+}
+
 interface Location {
   lat: number;
   lng: number;
 }
 
 interface LocationProps {
-  onSelectLocation: (location: Location) => void;
+  onSelectLocation: (
+    location: Location, 
+    openHours: OpeningHours | null,
+    address: string | null 
+  ) => void;
   position: Location | null;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
@@ -41,7 +49,27 @@ const LocationSelect = ({
   setValue }:LocationProps) => {
   const [map, setMap] = useState<google.maps.Map>();
   const searchBoxRef = useRef<google.maps.places.SearchBox>();
-  const [inputValue, setInputValue] = useState("")
+
+  const formatOpeningHours = (weekdayText: string[]): OpeningHours => {
+    const daysOfWeek = [
+      "sunday", 
+      "monday", 
+      "tuesday", 
+      "wednesday", 
+      "thursday", 
+      "friday", 
+      "saturday"
+    ];
+  
+    const openingHours: OpeningHours = {};
+  
+    weekdayText.forEach((text, index) => {
+      const day = daysOfWeek[index];
+      openingHours[day] = text.split(": ")[1]; // Extract time range
+    });
+  
+    return openingHours;
+  };
 
   const onLoad = useCallback((ref: google.maps.places.SearchBox) => {
     searchBoxRef.current = ref;
@@ -50,14 +78,21 @@ const LocationSelect = ({
   const onPlacesChanged = () => {
     const places = searchBoxRef.current?.getPlaces();
     if (places && places.length) {
-      const loc = places[0].geometry?.location;
+      const place = places[0]
+      const address = place.formatted_address || null;
+      const weekdayText = place.opening_hours?.weekday_text || [];
+      const openHours = formatOpeningHours(weekdayText);
+      const loc = place.geometry?.location;
 
       const newPosition = {
         lat: loc!.lat(),
         lng: loc!.lng()
       };
 
-      onSelectLocation(newPosition);
+      console.log('Address:', address)
+      console.log('Open hours:', openHours);
+
+      onSelectLocation(newPosition, openHours, address);
       setValue('location', newPosition);
 
       if (map) {
@@ -82,8 +117,8 @@ const LocationSelect = ({
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        // setPosition(newPos);
-        onSelectLocation(newPos);
+
+        onSelectLocation(newPos, null, null);
         setValue('location', newPos);
         map?.setCenter(newPos);
         map?.setZoom(15);

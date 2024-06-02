@@ -59,6 +59,9 @@ const SpotCard = ({
         if (building) {
             const status = getOpenHoursToday(building.openHours);
             setOpenStatus(status);
+        } else if (data.openHours) {
+            const status = getOpenHoursToday(data.openHours);
+            setOpenStatus(status);
         }
     }, [building])
 
@@ -105,7 +108,15 @@ const SpotCard = ({
             return 'Closed today'
         }
 
-        const [openTime, closeTime] = openHoursToday.split(' - ');
+        let openTime = "00:00";
+        let closeTime = "00:00";
+
+        if (openHoursToday.includes(' - ')) {
+            [openTime, closeTime] = openHoursToday.split(' - ');
+        } else if (!building){
+            [openTime, closeTime] = openHoursToday.split(' – ');
+        }
+
         const currentTime = today.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
 
         if (currentTime < openTime) {
@@ -230,17 +241,18 @@ const SpotCard = ({
                         </div>
                     )}
                     
-                        {distance ? 
+                        {distance ? (
                             <div>
-                                `${distance.toFixed(2)} km away`
-                            </div> : 
+                                {`${distance < 1000 ? distance.toFixed(2) : distance.toFixed(0)} km away`}
+                            </div> 
+                        ) : (
                         <Skeleton 
                             className="
                                 h-[15px]
                                 w-[200px]
                             "
-                        />}
-                    
+                        />)}
+
                 </div>
                     {openStatus ?
                         <div className="
@@ -259,6 +271,7 @@ const SpotCard = ({
                                 w-full
                                 h-[20px]
                                 rounded-full
+                                mb-[2px]
                             "
                         />
                     }

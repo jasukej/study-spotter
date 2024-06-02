@@ -12,6 +12,7 @@ import { IoLibrary } from "react-icons/io5";
 import { FaParking } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
 import { FaTint } from 'react-icons/fa';
+import { MdEmojiEvents } from "react-icons/md";
 
 interface Facility {
     label: string;
@@ -66,5 +67,13 @@ export const facilities = [
     {
         label: "Lots of water dispensers",
         icon: FaTint
+    },
+    { 
+        label: "Study lounges", 
+        icon: MdAirlineSeatReclineNormal 
+    },
+    {
+        label: "Event spaces",
+        icon: MdEmojiEvents
     },
 ];

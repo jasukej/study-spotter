@@ -9,14 +9,15 @@ import getCurrentUser from '@/app/actions/getCurrentUser';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import Button from '../Button';
 import ReviewCard from './ReviewCard';
+import AggregateReviews from './AggregateReviews';
 
 interface SpotReviewsProps {
     currentUser?: User | null;
     reviews: any;
-    studySpotId: string;
+    spotId: string;
 }
 
-const SpotReviews = ({ currentUser, reviews, studySpotId }:SpotReviewsProps) => {
+const SpotReviews = ({ currentUser, reviews, spotId }:SpotReviewsProps) => {
     const addReviewModal = useAddReviewModal();
     const loginModal = useLoginModal();
 
@@ -26,7 +27,7 @@ const SpotReviews = ({ currentUser, reviews, studySpotId }:SpotReviewsProps) => 
             return;
         }
 
-        addReviewModal.onOpen(studySpotId);
+        addReviewModal.onOpen(spotId);
     }, [currentUser, loginModal, addReviewModal]);
 
   return (
@@ -51,7 +52,9 @@ const SpotReviews = ({ currentUser, reviews, studySpotId }:SpotReviewsProps) => 
             </div>
         </div>
         <div>
-            {/* AGGREGATE REVIEWS */}
+            <AggregateReviews 
+                reviews={reviews}
+            />
         </div>
         <div className="
             flex 
@@ -63,6 +66,7 @@ const SpotReviews = ({ currentUser, reviews, studySpotId }:SpotReviewsProps) => 
                         <ReviewCard
                             key={index}
                             review={review}
+                            user={review.user}
                         />
                 ))}
         </div>

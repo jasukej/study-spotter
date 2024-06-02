@@ -56,6 +56,7 @@ const LocationDisplay = ({
         <Heading 
             title="Location"
         />
+        {address && (
         <div className="
             rounded-full
             border
@@ -65,13 +66,12 @@ const LocationDisplay = ({
             my-2
             hover:shadow-md
 
-        ">
-            {address && (
-                <div className="text-sm text-neutral-600">
-                    <strong>{name}</strong>: {address}
-                </div>
-            )}
+        ">  
+            <div className="text-sm text-neutral-600 overflow-x-auto">
+                {name && <strong>{name}: </strong>} {address}
+            </div>
         </div>
+        )}
         {isLoaded ? (
             <GoogleMap
                 mapContainerStyle={containerStyle}

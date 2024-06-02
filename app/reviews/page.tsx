@@ -1,8 +1,55 @@
 import React from 'react'
+import getReviewsByUserId from '../actions/getReviewsByUserId'
+import getCurrentUser from '../actions/getCurrentUser';
+import NoSpotsView from '../components/NoSpotsView';
+import Container from '../components/Container';
+import Heading from '../components/Heading';
+import useLoginModal from '../hooks/useLoginModal';
+import ReviewCard from '../components/spotview/ReviewCard';
 
-const ReviewsPage = () => {
+const ReviewsPage = async () => {
+  const user = await getCurrentUser();
+
+  if (!user) return (
+    <div>
+      <NoSpotsView />
+    </div>
+  )
+
+  const myReviews = await getReviewsByUserId(user.id)
+
+  if (!myReviews) return (
+    <div>
+      <NoSpotsView />
+    </div>
+  )
+
   return (
-    <div>ReviewsPage</div>
+    <div className="mt-8 px-4">
+      <Container>
+      <Heading
+        title="My reviews"
+      />
+      <div
+        className="
+          mt-10
+          grid
+          grid-cols-2
+          lg:grid-cols-3
+          gap-4
+        ">
+          {myReviews.map((review:any) => {
+            console.log(review)
+            return (
+              <ReviewCard 
+                review={review}
+                user={user}
+              />
+            )})
+          }
+      </div>
+    </Container>
+    </div>
   )
 }
 

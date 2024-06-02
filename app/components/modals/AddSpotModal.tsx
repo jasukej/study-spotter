@@ -25,6 +25,10 @@ import { useRouter } from 'next/navigation';
 import NameInput from '../inputs/NameInput';
 import InstitutionSelect from '../inputs/InstitutionSelect';
 
+interface OpeningHours {
+    [key: string]: string; // { "monday": "8:30 AM - 5:30 PM" }
+}
+
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
@@ -43,6 +47,8 @@ const AddSpotModal = () => {
     const [position, setPosition] = useState<{ lat: number, lng: number } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedInsitutionId, setSelectedInstitutionId] = useState<string | null>(null);
+    const [openHours, setOpenHours] = useState<OpeningHours | null>(null);
+    const [address, setAddress] = useState("");
 
     const {
         register,
@@ -64,7 +70,9 @@ const AddSpotModal = () => {
             noiseLevel: 0,
             capacity: 0, 
             building: null,
-            institution: null
+            institution: null,
+            openHours: null,
+            address: "",
         }
     })
 
@@ -114,11 +122,22 @@ const AddSpotModal = () => {
         return 'Back';
     }, [step])
 
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (step !== STEPS.FEATURES) {
             onNext();
             return;
         }
+
+        if (!building && openHours) {
+            data.openHours = openHours;
+        }
+
+        if (address) {
+            data.address = address;
+        }
+
+        console.log(data);
 
         setIsLoading(true);
         axios.post('/api/studyspots', data)
@@ -128,6 +147,7 @@ const AddSpotModal = () => {
             })
             router.refresh();
             reset();
+            setProgress(2);
             setStep(STEPS.CATEGORY);
             addSpotModal.onClose();
         })
@@ -177,9 +197,12 @@ const AddSpotModal = () => {
                     subtitle="Help others find this spot!"
                 />
                 <LocationSelect 
-                    onSelectLocation={(location) => {
+                    onSelectLocation={(location, openHours) => {
                         setCustomValue('location', location)
                         setPosition(location);
+                        setOpenHours(openHours);
+                        setAddress(address);
+                        console.log('Selected openHours:', openHours);
                     }}
                     position={location}
                     register={register}
@@ -317,7 +340,7 @@ const AddSpotModal = () => {
     <Modal 
         progress={progress}
         isOpen={addSpotModal.isOpen}
-        onClose={addSpotModal.onClose}
+        onClose={() => addSpotModal.onClose(reset)}
         onSubmit={handleSubmit(onSubmit)}
         body={bodyContent}
         actionLabel={actionLabel}

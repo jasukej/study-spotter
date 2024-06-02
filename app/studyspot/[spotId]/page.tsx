@@ -9,6 +9,7 @@ import InfoBox from "@/app/components/spotview/InfoBox";
 import Image from "next/image";
 import React from "react";
 import { noiseLevels } from "@/app/libs/noiseData";
+import { FaRegFlag } from "react-icons/fa6";
 
 import { FaPeopleLine } from "react-icons/fa6";
 import { FaVolumeLow } from "react-icons/fa6";
@@ -43,6 +44,8 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
     userId,
     buildingId,
     createdAt,
+    openHours,
+    address,
   } = spot;
 
   const reviews = await getReviewsBySpotId(id);
@@ -56,11 +59,21 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
     ({ level, label, description }) => level == noiseLevel
   );
 
+  const findAddress = () => {
+    if (building?.address) {
+      return building?.address;
+    } else if (address) {
+      return address
+    }
+
+    return undefined
+  }
+
   return (
     <Container>
       <div
         className="
-            py-4
+            pt-4
             px-4
             flex
             flex-col
@@ -170,11 +183,14 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
               </div>
             </div>
             <Separator />
-            <div>
               {/* OPEN HOURS */}
-              {building && <OpenHoursDisplay openHours={building?.openHours} />}
-            </div>
-            <Separator />
+              {(building || openHours) 
+                && 
+                  <div>
+                    <OpenHoursDisplay openHours={building ? building?.openHours : openHours} /> 
+                  </div>
+              }
+            {(building || openHours) && <Separator />}
             <div>
               {/* FEATURES AND FACILITIES */}
               <FeaturesDisplay featuresData={features} />
@@ -185,7 +201,7 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
               <LocationDisplay
                 //@ts-ignore
                 location={location}
-                address={building?.address}
+                address={findAddress()}
                 name={building?.name}
               />
             </div>
@@ -197,6 +213,19 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
               reviews={reviews}
               currentUser={currentUser} 
             />
+          </div>
+          <div 
+            className="
+            justify-center 
+            flex
+            flex-row 
+            items-center
+            gap-x-2
+            text-neutral-500
+            hover:underline
+            hover:underline-offset-2
+            cursor-pointer">
+            <FaRegFlag size={14}/> Report this study spot
           </div>
         </div>
       </div>

@@ -22,7 +22,9 @@ export async function POST(
             features,
             noiseLevel,
             capacity,
-            building
+            building,
+            openHours,
+            address
         } = body;
 
         console.log("Request body:", body);
@@ -38,6 +40,8 @@ export async function POST(
                 noiseLevel,
                 capacity: parseInt(capacity, 10),
                 buildingId: building, // should be buildingId bruh
+                openHours,
+                address,
                 userId: currentUser.id
             }
         })

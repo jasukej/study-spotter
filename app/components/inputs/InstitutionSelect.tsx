@@ -43,8 +43,6 @@ const InstitutionSelect = ({
         fetchInstitutions();
      }, [])
 
-     const [infoHover, setInfoHover] = useState(false)
-
   return (
     <div className="
         sm:flex
@@ -58,12 +56,12 @@ const InstitutionSelect = ({
             <HoverCard>
                 <HoverCardTrigger>
                     <div className="
-                        hover:text-orange-700
+                        hover:text-neutral-700
                     ">
                         <FaCircleInfo size={18}/>
                     </div>
                 </HoverCardTrigger>
-                <HoverCardContent className="text-neutral-300 bg-orange-700">
+                <HoverCardContent className="text-neutral-100 bg-gray-800">
                 Select <span className="font-bold">'none'</span> if your spot does not belong to an institution
                 </HoverCardContent>
             </HoverCard>

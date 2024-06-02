@@ -65,7 +65,8 @@ model StudySpot {
   noiseLevel Int
   capacity Int
   category String
-  openHours Json? //deal with this later, create assigns building openHours if exists
+  openHours Json?
+  address String?
   userId String @db.ObjectId
   buildingId String? @db.ObjectId
   createdAt DateTime @default(now())

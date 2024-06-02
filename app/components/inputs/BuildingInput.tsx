@@ -4,6 +4,7 @@ import axios from 'axios';
 interface Building {
   id: string;
   name: string;
+  alias: string;
 }
 
 interface BuildingInputProps {
@@ -97,7 +98,7 @@ const BuildingInput: React.FC<BuildingInputProps> = ({
             ) : (
             buildings.map((building) => (
             <option key={building.id} value={building.id}>
-                {building.name}
+                {building.name.length <= 24 ? building.name : building.alias}
             </option>
             )))
         }

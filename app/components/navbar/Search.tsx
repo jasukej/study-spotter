@@ -2,10 +2,13 @@
 
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
+import useSearchModal from '@/app/hooks/useSearchModal';
 
 const Search = () => {
+    const searchModal = useSearchModal();
   return (
     <div
+        onClick={searchModal.onOpen}
         className="
             border-[1px]
             md:max-w-[600px]
@@ -36,8 +39,9 @@ const Search = () => {
                 text-sm
                 font-semibold
                 px-6
+                w-full
             ">
-                Where to study?
+                Where <span className="inline-block md:hidden">to study?</span>
             </div>
             <div
             className="

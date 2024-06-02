@@ -12,6 +12,7 @@ import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
 import { ColorSchemeScript } from '@mantine/core';
 import AddReviewModal from "./components/modals/AddReviewModal";
+import SearchModal from "./components/modals/SearchModal";
 
 const font = Roboto({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default async function RootLayout({
       <body className={font.className}>
         <MantineProvider theme={theme}>
           <RegisterModal />
+          <SearchModal />
           <LoginModal />
           <AddSpotModal />
           <AddReviewModal />
