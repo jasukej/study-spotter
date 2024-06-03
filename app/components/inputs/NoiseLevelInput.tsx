@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { noiseLevels } from "@/app/libs/noiseData";
 
 interface NoiseLevelInputProps {
-  title: string;
-  subtitle: string;
+  title?: string;
+  subtitle?: string;
   onChange: (value: number) => void;
   value: number;
 }
@@ -36,6 +36,7 @@ const NoiseLevelInput = ({
     "
     >
       <div>
+        {title &&
         <div
           className="
                 text-xl 
@@ -43,14 +44,15 @@ const NoiseLevelInput = ({
                 md:mt-4"
         >
           {title}
-        </div>
+        </div>}
+        {subtitle &&
         <div
           className="
                 text-neutral-400 
                 md:hidden"
         >
           {subtitle}
-        </div>
+        </div>}
       </div>
       <div className="flex flex-col gap-2">
         <select
@@ -83,7 +85,7 @@ const NoiseLevelInput = ({
           <div
             className="
                     mt-2
-                    bg-orange-700
+                    bg-orange-main
                     text-sm
                     text-yellow-light
                     p-2

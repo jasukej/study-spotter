@@ -8,12 +8,14 @@ const Search = () => {
     const searchModal = useSearchModal();
   return (
     <div
-        onClick={searchModal.onOpen}
+        onClick={() => {
+            searchModal.onOpen()
+        }}
         className="
             border-[1px]
             md:max-w-[600px]
             sm:max-w-[300px]
-            max-w-[300px]
+            max-w-[250px]
             w-full
             md:w-auto
             py-1

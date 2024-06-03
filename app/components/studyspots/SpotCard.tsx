@@ -40,6 +40,7 @@ const SpotCard = ({
     const [building, setBuilding] = useState<any>(null);
     const [openStatus, setOpenStatus] = useState<string>('');
     const [distance, setDistance] = useState<number | null>(null);
+    const [averageRating, setAverageRating] = useState<string | null>(null);
 
     const location = data.location
 
@@ -88,6 +89,19 @@ const SpotCard = ({
         }
             
     }, [data.location])
+
+    useEffect(() => {
+        const fetchAverageRating = async () => {
+            try {
+                const response = await axios.get(`api/studyspots/${data.id}/averagerating`)
+                setAverageRating(response.data != 'NaN' ? response.data : null)
+            } catch (error) {
+                console.error('Error fetching average rating: ', error);
+            }
+        }
+
+        fetchAverageRating();
+    }, [data.id])
 
     const getOpenHoursToday = (openHours: any) => {
         const daysOfWeek = [
@@ -151,26 +165,25 @@ const SpotCard = ({
     bg-white
     flex-col
     flex
-    h-full
     gap-y-2
-    transition-transform
-    hover:shadow-lg
-    hover:-translate-x-1
-    hover:-translate-y-1
+    transition-transform-shadow
+    duration-200 ease
+    hover:shadow-block-shadow
+    hover:-translate-x-2
+    hover:-translate-y-2
     transform 
-    duration-50
     ">
         <div
         className="
             relative
-            w-full
             h-48
+            w-full
         ">
             <Image 
                 fill={true}
-                objectFit="cover"
-                alt = {data.name}
-                src = {data.imgSrc[0]} // revise to include multiple images
+                style={{objectFit:"cover"}}
+                alt={data.name}
+                src={data.imgSrc[0]} // revise to include multiple images
             />
             <div className="mt-2 mr-2">
                 <BookmarkButton 
@@ -180,101 +193,106 @@ const SpotCard = ({
                 />
             </div>
         </div>
-        <div className="">
+        <div className="
+            px-4
+            flex-col
+            flex
+            pb-3
+            justify-between
+        ">
             <div className="
-                px-4
-                flex-col
-                pb-3
+                flex
+                flex-row
+                justify-between
+                items-center
+                md:min-h-[50px]
             ">
+                <div className="
+                    text-lg
+                    font-bold
+                    leading-tight
+                ">
+                    {data.name}
+                </div>
+                
+                {averageRating &&
                 <div className="
                     flex
                     flex-row
-                    justify-between
-                    items-center
-                    md:min-h-[50px]
-                ">
-                    <div className="
-                        text-lg
-                        font-bold
-                        leading-tight
-                    ">
-                        {data.name}
-                    </div>
-                    <div className="
-                        flex
-                        flex-row
-                        gap-1
-                        text-sm
-                        items-start
-                        h-peer
-                    ">
-                        <div className="
-                            -mt-1
-                        ">
-                            4.87
-                        </div>
-                            <FaStar 
-                                size={12}
-                            />
-                    </div>
-                </div>
-                <div className="
-                    text-neutral-500
-                    flex 
-                    flex-row
-                    gap-x-2
+                    gap-1
                     text-sm
-                    md:flex-col
-                ">
-                    {data.buildingId && (
-                        <div className="flex gap-2">
-                            {building ? 
-                                building.name : 
-                                <Skeleton 
-                                className="
-                                    w-[100px]
-                                    h-[15px]
-                                "
-                                />
-                            }
-                            <div className="md:hidden"> | </div>
-                        </div>
-                    )}
-                    
-                        {distance ? (
-                            <div>
-                                {`${distance < 1000 ? distance.toFixed(2) : distance.toFixed(0)} km away`}
-                            </div> 
-                        ) : (
-                        <Skeleton 
-                            className="
-                                h-[15px]
-                                w-[200px]
-                            "
-                        />)}
-
-                </div>
-                    {openStatus ?
-                        <div className="
-                        flex
-                        flex-row
-                        gap-x-1
-                        items-center
-                        text-sm
-                        h-[30px]">
-                            <FaRegClock />
-                            {openStatus} 
-                        </div>
-                        : 
-                        <Skeleton 
-                            className="
-                                w-full
-                                h-[20px]
-                                rounded-full
-                                mb-[2px]
-                            "
+                    items-start
+                    h-peer
+                ">  
+                    <div className="
+                        -mt-1
+                    ">
+                        {averageRating}
+                    </div>
+                        <FaStar 
+                            size={12}
                         />
-                    }
+                </div>
+                }
+            </div>
+            <div className="
+                text-neutral-500
+                flex 
+                flex-row
+                gap-x-2
+                text-sm
+                md:flex-col
+            ">
+                {data.buildingId && (
+                    <div className="flex gap-2">
+                        {building ? 
+                            building.name : 
+                            <Skeleton 
+                            className="
+                                w-auto
+                                h-[15px]
+                            "
+                            />
+                        }
+                        <div className="md:hidden"> | </div>
+                    </div>
+                )}
+                
+                {distance ? (
+                    <div>
+                        {`${distance < 1000 ? distance.toFixed(2) : distance.toFixed(0)} km away`}
+                    </div> 
+                ) : (
+                <Skeleton 
+                    className="
+                        h-[15px]
+                        w-auto
+                    "
+                />)}
+
+            </div>
+            <div className="flex flex-col">
+                {openStatus ?
+                    <div className="
+                    flex
+                    flex-row
+                    gap-x-1
+                    items-center
+                    text-sm
+                    h-[30px]">
+                        <FaRegClock />
+                        {openStatus} 
+                    </div>
+                    : 
+                    <Skeleton 
+                        className="
+                            w-full
+                            h-[20px]
+                            rounded-full
+                            mb-[2px]
+                        "
+                    />
+                }
                 <div className="
                     rounded-full
                     bg-orange-main
@@ -287,6 +305,7 @@ const SpotCard = ({
                     flex
                     flex-row
                     justify-between
+                    items-center
                 ">
                     <div>
                         {getNoiseDescription(data.noiseLevel)}

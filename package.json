@@ -46,6 +46,7 @@
     "react-hook-form": "^7.51.4",
     "react-leaflet": "^4.2.1",
     "react-select": "^5.8.0",
+    "react-transition-group": "^4.4.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.2"

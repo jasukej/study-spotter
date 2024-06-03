@@ -57,7 +57,7 @@ const CategoryBox = ({ icon: Icon, label, selected }:CategoryBoxProps) => {
         `}
     >
         <Icon size={26} />
-        <div className="font-medium text-wrap text-sm">
+        <div className="font-medium overflow-x-hidden text-sm">
             {label}
         </div>
     </div>

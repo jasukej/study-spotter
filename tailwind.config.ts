@@ -89,15 +89,28 @@ const config = {
             transform: 'rotate(0deg)',
           }
         },
+        'slideIn': {
+          '0%': { maxHeight: '0', opacity: '0' },
+          '100%': { maxHeight: '500px', opacity: '1'},
+        }, 
+        'slideOut': {
+          '0%': { maxHeight: '500px', opacity: '1' },
+          '100%': { maxHeight: '0', opacity: '0'},
+        }, 
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "spin-forward": "spin-forward 0.3s linear",
         "spin-backward": "spin-backward 0.3s linear",
+        'slideIn': 'slideIn 300ms ease-in-out',
+        'slideOut': 'slideOut 300ms ease-in-out',
       },
       boxShadow: {
         'block-shadow': '8px 10px 0px 0 rgba(0, 0, 0, 1)',
+      },
+      transitionProperty: {
+        'transform-shadow': 'transform, box-shadow ease 0.5s'
       }
     },
   },

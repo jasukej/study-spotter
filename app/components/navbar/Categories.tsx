@@ -22,7 +22,7 @@ export const categories = [
 
     },
     {
-        label: 'Private Room',
+        label: 'Private',
         icon: RiGitRepositoryPrivateFill,
         description: 'This study spot is a bookable private room.'
     },

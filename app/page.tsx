@@ -33,13 +33,11 @@ export default async function Home() {
       ">
           {spots.map((spot:any) => {
             return (
-              <div>
-                <SpotCard
-                  currentUser={currentUser}
-                  key={spot.id}
-                  data={spot}
-                />
-              </div>
+              <SpotCard
+                currentUser={currentUser}
+                key={spot.id}
+                data={spot}
+              />
             )
           })}
       </div>

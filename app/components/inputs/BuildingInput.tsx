@@ -10,8 +10,8 @@ interface Building {
 interface BuildingInputProps {
   title: string;
   subtitle: string;
-  onChange: (value: string) => void;
-  selectedBuildingId?: string;
+  onChange: (value: string | null) => void;
+  selectedBuildingId: string | null;
   institutionId?: string | null;
 }
 
@@ -63,29 +63,24 @@ const BuildingInput: React.FC<BuildingInputProps> = ({
       </div>
       {loading ? (
         <div className="min-w-[200px] mt-2 text-neutral-400">Loading buildings...</div>
-      ) : institutionId === null ? (
-        <div className="min-w-[200px] mt-2 text-neutral-400">Not part of an institution</div>
       ) : (
         <select 
-            onChange={(e) => onChange(e.target.value)} 
-            value={selectedBuildingId}
+            onChange={(e) => onChange(e.target.value === '' ? null : e.target.value)} 
+            value={selectedBuildingId || ''}
             className="
-                border
-                border-neutral-200
-                rounded-md
-                min-w-[260px]
-                sm:min-w-[200px]
-                sm:overflow-x-hidden
-                min-h-[40px]
-                mt-2
-                sm:mt-0
+              border
+              border-neutral-200
+              rounded-md
+              min-w-[260px]
+              sm:min-w-[200px]
+              sm:overflow-x-hidden
+              min-h-[40px]
+              mt-2
+              sm:mt-0
             "
         >
             <option 
             value=""
-            disabled
-            selected
-            hidden
             className="text-neutral-500"
             >
                 Select a building
@@ -98,10 +93,10 @@ const BuildingInput: React.FC<BuildingInputProps> = ({
             ) : (
             buildings.map((building) => (
             <option key={building.id} value={building.id}>
-                {building.name.length <= 24 ? building.name : building.alias}
+                {building.name.length <= 30 ? building.name : building.alias}
             </option>
             )))
-        }
+            }
         </select>
       )}
     </div>

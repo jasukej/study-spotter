@@ -24,6 +24,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import NameInput from '../inputs/NameInput';
 import InstitutionSelect from '../inputs/InstitutionSelect';
+import { CSSTransition } from 'react-transition-group';
 
 interface OpeningHours {
     [key: string]: string; // { "monday": "8:30 AM - 5:30 PM" }
@@ -46,7 +47,7 @@ const AddSpotModal = () => {
     const [progress, setProgress] = useState(2)
     const [position, setPosition] = useState<{ lat: number, lng: number } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedInsitutionId, setSelectedInstitutionId] = useState<string | null>(null);
+    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | null>(null);
     const [openHours, setOpenHours] = useState<OpeningHours | null>(null);
     const [address, setAddress] = useState("");
 
@@ -223,15 +224,32 @@ const AddSpotModal = () => {
                         onSelectInstitution={(institutionId) => {
                             setSelectedInstitutionId(institutionId)
                         }}
-                        selectedInstitutionId={selectedInsitutionId}
+                        selectedInstitutionId={selectedInstitutionId}
                     />
-                    <BuildingInput 
-                        title="Building"
-                        subtitle="Which building is this study spot in?"
-                        onChange={(value) => setCustomValue('building', value)}
-                        selectedBuildingId={building}
-                        institutionId={selectedInsitutionId}
-                    />
+                    <CSSTransition 
+                    in={!!selectedInstitutionId}
+                    timeout={300}
+                    classNames={{
+                        enter: 'animate-slideIn',
+                        enterActive: 'animate-slideIn',
+                        exit: 'animate-slideOut',
+                        exitActive: 'animate-slideOut',
+                    }}
+                    unmountOnExit
+                    >   
+                        <div className="flex flex-col gap-6 mt-4">
+                            <Heading 
+                                title="Looking in a specific building?"
+                            />
+                            <BuildingInput 
+                                title="Building"
+                                subtitle="Which building is this study spot in?"
+                                onChange={(value) => setCustomValue('building', value)}
+                                selectedBuildingId={building}
+                                institutionId={selectedInstitutionId}
+                            />
+                        </div>
+                    </CSSTransition>
                 </div>
             </div>
         )

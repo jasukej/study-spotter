@@ -74,6 +74,8 @@ const ReviewCard = ({ review, user }:ReviewCardProps) => {
         rounded-xl
         sm:max-w-[530px]
         animate
+        ease-out
+        hover:ease-in
         hover:transition
         hover:duration-40
         hover:-translate-y-2
