@@ -108,6 +108,7 @@ const config = {
       },
       boxShadow: {
         'block-shadow': '8px 10px 0px 0 rgba(0, 0, 0, 1)',
+        'push-shadow': '4px 5px 0px 0 rgba(0, 0, 0, 1)'
       },
       transitionProperty: {
         'transform-shadow': 'transform, box-shadow ease 0.5s'

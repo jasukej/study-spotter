@@ -70,7 +70,9 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
   }
 
   const formattedLocation = {
+    // @ts-ignore
     lat: parseFloat(location?.coordinates[1]),
+    // @ts-ignore
     lng: parseFloat(location?.coordinates[0])
   }
 
