@@ -73,7 +73,7 @@ const AddSpotModal = () => {
             building: null,
             institution: null,
             openHours: null,
-            address: "",
+            address: '',
         }
     })
 
@@ -82,6 +82,7 @@ const AddSpotModal = () => {
     const location = watch('location');
     const imgSrc = watch('imgSrc');
     const noiseLevel = watch('noiseLevel');
+    const institution = watch('institution');
     const building = watch('building');
     const capacity = watch('capacity');
     const features = watch('features');
@@ -136,6 +137,15 @@ const AddSpotModal = () => {
 
         if (address) {
             data.address = address;
+        }
+
+        if (location) {
+            const geoJsonLocation = {
+                type: 'Point',
+                coordinates: [location.lng, location.lat]
+            }
+
+            data.location = geoJsonLocation
         }
 
         console.log(data);
@@ -223,6 +233,7 @@ const AddSpotModal = () => {
                     <InstitutionSelect 
                         onSelectInstitution={(institutionId) => {
                             setSelectedInstitutionId(institutionId)
+                            setCustomValue('institution', institutionId);
                         }}
                         selectedInstitutionId={selectedInstitutionId}
                     />

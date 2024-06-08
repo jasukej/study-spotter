@@ -9,15 +9,19 @@ import { getDistance } from 'geolib';
 import Image from 'next/image';
 import BookmarkButton from '../BookmarkButton'
 import { Skeleton } from '@/components/ui/skeleton';
+import { DivideCircle } from 'lucide-react';
 
-interface Location {
-    lat: number;
-    lng: number;
+export interface GeoJSONLocation {
+    type: string;
+    coordinates: [
+        lat: number,
+        lng: number
+    ]
 }
 
 interface SpotCardProps {
     data: StudySpot & { 
-        location: Location; 
+        location: GeoJSONLocation; 
         buildingId: string; 
         imgSrc: string[];
     };
@@ -57,14 +61,12 @@ const SpotCard = ({
     }, [data.buildingId]);
 
     useEffect(() => {
-        if (building) {
-            const status = getOpenHoursToday(building.openHours);
-            setOpenStatus(status);
-        } else if (data.openHours) {
-            const status = getOpenHoursToday(data.openHours);
+        const openHours = building ? building.openHours : data.openHours;
+        if (typeof openHours === 'object' && openHours !== null) {
+            const status = getOpenHoursToday(openHours as { [key: string]: string });
             setOpenStatus(status);
         }
-    }, [building])
+    }, [building, data.openHours]);
 
     useEffect(() => {
         if (navigator.geolocation && data.location) {
@@ -75,8 +77,8 @@ const SpotCard = ({
                     longitude: position.coords.longitude
                 };
                 const spotLocation = {
-                    latitude: data.location.lat,
-                    longitude: data.location.lng
+                    latitude: data.location.coordinates[1],
+                    longitude: data.location.coordinates[0]
                 };
 
                 const calculatedDistance = getDistance(userLocation, spotLocation) / 1000;
@@ -103,7 +105,7 @@ const SpotCard = ({
         fetchAverageRating();
     }, [data.id])
 
-    const getOpenHoursToday = (openHours: any) => {
+    const getOpenHoursToday = (openHours: { [key: string]: string }): string => {
         const daysOfWeek = [
             "sunday", 
             "monday", 
@@ -112,35 +114,67 @@ const SpotCard = ({
             "thursday", 
             "friday", 
             "saturday"
-        ]
+        ];
         const today = new Date();
         const dayIndex = today.getDay();
         const todayDayName = daysOfWeek[dayIndex];
         const openHoursToday = openHours[todayDayName];
-
-        if (openHoursToday === "Closed") {
-            return 'Closed today'
+    
+        if (!openHoursToday || openHoursToday === "Closed") {
+            return 'Closed today';
         }
-
-        let openTime = "00:00";
-        let closeTime = "00:00";
-
-        if (openHoursToday.includes(' - ')) {
-            [openTime, closeTime] = openHoursToday.split(' - ');
-        } else if (!building){
-            [openTime, closeTime] = openHoursToday.split(' – ');
+    
+        if (openHoursToday === "Open 24 hours") {
+            return 'Open 24 hours';
         }
-
-        const currentTime = today.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
-
-        if (currentTime < openTime) {
-            return `Opens at ${openTime}`
-        } else if (currentTime > closeTime) {
-            return `Closed since ${closeTime}`
-        } else {
-            return `Closes at ${closeTime}`
+    
+        const timeRanges = openHoursToday.split(',').map(range => range.trim());
+        const currentTime = today.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    
+        let nextOpenTime: string | null = null;
+        let isOpen = false;
+    
+        for (const range of timeRanges) {
+            let [openTime, closeTime] = range.includes(' – ') ? range.split(' – ') : range.split(' - ');
+    
+            // Convert times to 24-hour format first for comparison
+            openTime = convertTo24Hour(openTime.trim());
+            closeTime = convertTo24Hour(closeTime.trim());
+    
+            if (currentTime >= openTime && currentTime <= closeTime) {
+                isOpen = true;
+                return `Closes at ${convertTo12Hour(closeTime)}`;
+            } else if (currentTime < openTime && (!nextOpenTime || openTime < nextOpenTime)) {
+                nextOpenTime = openTime;
+            }
         }
-    }
+    
+        if (isOpen) {
+            return `Closes at ${convertTo12Hour(timeRanges[timeRanges.length - 1].split(' - ')[1].trim() || timeRanges[timeRanges.length - 1].split(' – ')[1].trim())}`;
+        } else if (nextOpenTime) {
+            return `Opens at ${convertTo12Hour(nextOpenTime)}`;
+        }
+    
+        return 'Closed today';
+    };
+    
+    const convertTo24Hour = (time: string): string => {
+        let [hour, minute] = time.match(/(\d+):(\d+)/)?.slice(1) ?? [];
+        const period = time.match(/AM|PM/i)?.[0].toLowerCase();
+        if (period === 'pm' && hour !== '12') {
+            hour = (parseInt(hour, 10) + 12).toString();
+        } else if (period === 'am' && hour === '12') {
+            hour = '00';
+        }
+        return `${hour}:${minute}`;
+    };
+    
+    const convertTo12Hour = (time: string): string => {
+        let [hour, minute] = time.split(':');
+        const period = parseInt(hour, 10) >= 12 ? 'PM' : 'AM';
+        hour = (parseInt(hour, 10) % 12 || 12).toString();
+        return `${hour}:${minute} ${period}`;
+    };    
 
     function getNoiseDescription(noiseLevel: number): string {
         const noiseLevelMap: { [key: number]: string } = {
@@ -211,6 +245,9 @@ const SpotCard = ({
                     text-lg
                     font-bold
                     leading-tight
+                    flex
+                    flex-col
+                    justify-start
                 ">
                     {data.name}
                 </div>
@@ -311,7 +348,7 @@ const SpotCard = ({
                         {getNoiseDescription(data.noiseLevel)}
                     </div>
                     <div>
-                        busy {/* PLACEHOLDER */}
+                        {/* PLACEHOLDER */}
                     </div>
                 </div>
             </div>

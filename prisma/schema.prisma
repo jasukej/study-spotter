@@ -68,10 +68,12 @@ model StudySpot {
   openHours Json?
   address String?
   userId String @db.ObjectId
+  institutionId String? @db.ObjectId
   buildingId String? @db.ObjectId
   createdAt DateTime @default(now())
 
-  building Building? @relation(fields: [buildingId], references: [id])
+  building Building? @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  institution Institution? @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   reviews Review[]
 }
 
@@ -119,6 +121,7 @@ model Institution {
   type String  // e.g. University, Vocational school, College, Community college, Distance learning
   createdAt DateTime @default(now())
 
+  studySpots StudySpot[]
   buildings Building[]
   users User[]
 }

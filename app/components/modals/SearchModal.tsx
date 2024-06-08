@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import qs from 'query-string';
 import useSearchModal from '@/app/hooks/useSearchModal'
@@ -8,13 +8,13 @@ import Modal from './Modal';
 import Heading from '../Heading';
 import InstitutionSelect from '../inputs/InstitutionSelect';
 import BuildingInput from '../inputs/BuildingInput';
-import FeaturesDisplay from '../spotview/FeaturesDisplay';
 import FeaturesInput from '../inputs/FeaturesInput';
-import NoiseLevelInput from '../inputs/NoiseLevelInput';
 import LocationSearch from '../search/LocationSearch';
 import { Location } from '../search/LocationSearch';
 import { Slider } from '@mantine/core';
 import { CSSTransition } from 'react-transition-group';
+import NoiseLevelSearch from '../search/NoiseLevelSearch';
+import { RxCross2 } from "react-icons/rx";
 
 enum STEPS {
     LOCATION = 0,
@@ -35,9 +35,8 @@ const SearchModal = () => {
     const [location, setLocation] = useState<Location | null>(null);
     const [institution, setInstitution] = useState<string | null>(null)
     const [building, setBuilding] = useState<string | null>(null);
-    const [noiseLevel, setNoiseLevel] = useState(0);
+    const [noiseLevel, setNoiseLevel] = useState<number | undefined>(undefined);
     const [features, setFeatures] = useState<string[]>([]);
-    const [isOpenNow, setIsOpenNow] = useState(true);
 
     const onBack = useCallback(() => {
         setStep((prev) => prev - 1)
@@ -62,13 +61,12 @@ const SearchModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery, 
-            distanceValue: distance?.valueOf, // coordinate position
-            location,
+            distanceValue: distance, // coordinate position
+            location: location ? `${location.lat}, ${location.lng}` : undefined,
             institution, 
             building,
             noiseLevel,
             features,
-            isOpenNow
         };
 
         const url = qs.stringifyUrl({
@@ -77,6 +75,7 @@ const SearchModal = () => {
         }, { skipNull: true });
 
         setStep(STEPS.LOCATION);
+        setProgress(2);
         searchModal.onClose();
 
         router.push(url);
@@ -89,7 +88,7 @@ const SearchModal = () => {
         building,
         noiseLevel,
         features,
-        isOpenNow,
+        location,
         onNext, 
         params
     ])
@@ -147,6 +146,19 @@ const SearchModal = () => {
                         { value: 10 }
                     ]} 
                 />
+                <button 
+                    onClick={() => setDistance(undefined)}
+                    className="
+                    hover:bg-neutral-100
+                    rounded-full 
+                    p-1
+                    flex 
+                    justify-center
+                    items-center">
+                    <RxCross2 
+                        color="black"
+                        size={16}/>
+                </button>
             </div>
         </div>
     )
@@ -198,7 +210,7 @@ const SearchModal = () => {
                     title="Noise level"
                     subtitle="Silent study? Or de facto yap session?"
                 />
-                <NoiseLevelInput
+                <NoiseLevelSearch
                     onChange={(value) => setNoiseLevel(value)}
                     value={noiseLevel}
                 />

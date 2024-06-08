@@ -22,6 +22,7 @@ export async function POST(
             features,
             noiseLevel,
             capacity,
+            institutionId,
             building,
             openHours,
             address
@@ -39,6 +40,7 @@ export async function POST(
                 features,
                 noiseLevel,
                 capacity: parseInt(capacity, 10),
+                institutionId,
                 buildingId: building, // should be buildingId bruh
                 openHours,
                 address,

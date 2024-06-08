@@ -10,7 +10,7 @@ import Image from "next/image";
 import React from "react";
 import { noiseLevels } from "@/app/libs/noiseData";
 import { FaRegFlag } from "react-icons/fa6";
-
+import { GeoJSONLocation } from "@/app/components/studyspots/SpotCard";
 import { FaPeopleLine } from "react-icons/fa6";
 import { FaVolumeLow } from "react-icons/fa6";
 import OpenHoursDisplay from "@/app/components/spotview/OpenHoursDisplay";
@@ -67,6 +67,11 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
     }
 
     return undefined
+  }
+
+  const formattedLocation = {
+    lat: parseFloat(location?.coordinates[1]),
+    lng: parseFloat(location?.coordinates[0])
   }
 
   return (
@@ -200,7 +205,7 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
               {/* FEATURES AND FACILITIES */}
               <LocationDisplay
                 //@ts-ignore
-                location={location}
+                location={formattedLocation}
                 address={findAddress()}
                 name={building?.name}
               />

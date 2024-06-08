@@ -1,8 +1,8 @@
-import prisma from '@/app/libs/prismadb'
-import { LuSearch } from 'react-icons/lu';
+import prisma from '@/app/libs/prismadb';
+import { Location } from '../components/search/LocationSearch';
 
 export interface ISpotsParams {
-    location: Location;
+    location?: string;
     distanceValue?: number;
     institution?: string; // ids
     building?: string;
@@ -11,11 +11,8 @@ export interface ISpotsParams {
     category?: string;
 }
 
-export default async function getStudySpots(
-    params?: ISpotsParams
-) {
+export default async function getStudySpots(params?: ISpotsParams) {
     try {
-
         let query: any = {};
 
         if (params) {
@@ -28,42 +25,72 @@ export default async function getStudySpots(
                 features,
                 category
             } = params;
-    
-    
+
+
             if (category) {
                 query.category = category;
             }
-    
-            if (location && distanceValue) {
-              // Logic for calculating distance to location for every spot
-              // then filtering out spots with distances further than the distanceValue
-            }
-    
+
             if (institution) {
-                query.institution = institution;
+                query.institutionId = institution;
             }
-    
+
             if (building) {
-                query.building = building;
+                query.buildingId = building;
             }
-    
+
             if (noiseLevel) {
                 query.noiseLevel = {
-                    lse: +noiseLevel
+                    lte: +noiseLevel
                 };
             }
-    
-            if (features) {
+
+            if (features && features.length > 0) {
                 query.features = {
-                    // Logic for mapping over features of each spot and making sure they include features query
-                }
+                    hasEvery: features
+                };
             }
+        }
+        
+        // USE CENTERSPHERE
+        let filteredIds = [];
+        if (params?.location && params?.distanceValue) {
+            const [lat, lng] = params.location.split(", ").map(Number);
+
+            console.log(lat, lng);
+            console.log(params.distanceValue); // in km
+
+            const spotsWithinLocation = await prisma.studySpot.findRaw({
+                filter: {
+                    location: {
+                        $geoWithin: {
+                            $centerSphere: [
+                                [lng, lat], params.distanceValue/6378.1
+                            ], 
+                        }
+                    }
+                }
+            })
+
+            console.log(spotsWithinLocation);
+
+            if (spotsWithinLocation && Array.isArray(spotsWithinLocation)) {
+                filteredIds = spotsWithinLocation.map((spot: any) => spot._id.$oid);
+            }
+        }
+
+        console.log(filteredIds);
+
+        if (filteredIds.length > 0) {
+            query.id = {
+                in: filteredIds
+            };
         }
 
         const spots = await prisma.studySpot.findMany({
             where: query,
             orderBy: {
-                createdAt: 'desc'
+                createdAt: 'asc'
             }
         });
 

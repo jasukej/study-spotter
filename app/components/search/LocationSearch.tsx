@@ -114,6 +114,12 @@ const LocationSearch = ({
   });
 
   useEffect(() => {
+    // Check for whether user removed selection
+    if (radius === undefined){
+      circle?.setMap(null);
+      setCircle(null);
+    }
+
     if (map && position && radius != undefined) {
       // Update old circle if it exists
       if (circle) {

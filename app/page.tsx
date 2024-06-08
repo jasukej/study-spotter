@@ -4,9 +4,23 @@ import NoSpotsView from "./components/NoSpotsView";
 import getStudySpots from "./actions/getStudySpots";
 import SpotCard from "./components/studyspots/SpotCard";
 import getCurrentUser from "./actions/getCurrentUser";
+import { ISpotsParams } from "./actions/getStudySpots";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
-export default async function Home() {
-  const spots = await getStudySpots();
+interface HomeProps {
+  searchParams: ISpotsParams;
+}
+
+export default async function Home({ searchParams }:HomeProps) {
+  const spots = await getStudySpots(searchParams);
   const currentUser = await getCurrentUser() || undefined;
 
   if (spots.length == 0) {

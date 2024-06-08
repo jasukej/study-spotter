@@ -31,7 +31,6 @@ export async function POST(
         }
     })
 
-    console.log(user.favouriteIds);
     return NextResponse.json(user);
 }
 
@@ -63,7 +62,6 @@ export async function DELETE(
         }
     })
 
-    console.log(user.favouriteIds);
     return NextResponse.json(user);
 
 }
