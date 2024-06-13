@@ -53,7 +53,7 @@ export default async function RootLayout({
           <AddSpotModal />
           <AddReviewModal />
           <Navbar currentUser={currentUser} />
-          <div className="bg-white pb-20 pt-28">
+          <div className="bg-white pb-20 pt-24">
             {children}
           </div>
           <Toaster />

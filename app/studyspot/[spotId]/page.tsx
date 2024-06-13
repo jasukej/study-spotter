@@ -18,6 +18,8 @@ import LocationDisplay from "@/app/components/spotview/LocationDisplay";
 import Separator from "@/app/components/Separator";
 import SpotReviews from "@/app/components/spotview/SpotReviews";
 import getReviewsBySpotId from "@/app/actions/getReviewsBySpotId";
+import Link from "next/link";
+import BackButton from "@/app/components/BackButton";
 
 interface SpotPageParams {
   spotId?: string;
@@ -78,9 +80,16 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
 
   return (
     <Container>
+      <div 
+        className="
+            absolute
+            top-6
+            left-12">
+            <BackButton />
+        </div>
       <div
         className="
-            pt-4
+            pt-14
             px-4
             flex
             flex-col
@@ -137,17 +146,19 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
                     >
                       <span>
                         {category} space in
-                        <span
+                        <div
                           className="
-                                            hover:underline
+                                            underline
                                             cursor-pointer
                                             inline
                                             ml-[5px]
                                             hover:text-neutral-900
+                                            active:text-neutral-500
+                                            underline-offset-2
                                         "
                         >
-                          {building.name}
-                        </span>
+                          <Link href={`/building/${buildingId}`}>{building.name}</Link>
+                        </div>
                       </span>
                     </div>
                   )}

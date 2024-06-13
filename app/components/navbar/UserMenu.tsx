@@ -109,6 +109,7 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
                     right-0
                     top-12
                     mt-1
+                    z-999
                     text-sm
                 "
             >

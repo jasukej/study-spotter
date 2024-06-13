@@ -20,10 +20,11 @@ const useFavourite = ({
     const loginModal = useLoginModal();
 
     // Check for whether spotId is favourited alr
+    // Remember: useMemo memoizes the RESULT of a computation
+    // while useCallback memoizes the function itself 
     const hasFavourited = useMemo(() => {
         const userFavs = currentUser?.favouriteIds || [];
 
-        console.log(userFavs.includes(spotId))
         return userFavs.includes(spotId);
     }, [currentUser, spotId]);
 

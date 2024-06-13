@@ -9,9 +9,18 @@ export interface ISpotsParams {
     noiseLevel?: number;
     features?: string[];
     category?: string;
+    page?: number;
+    limit?: number;
 }
 
 export default async function getStudySpots(params?: ISpotsParams) {
+
+    const { 
+        page = 1, 
+        limit, 
+        ...filters 
+    } = params || {}; 
+
     try {
         let query: any = {};
 
@@ -57,8 +66,8 @@ export default async function getStudySpots(params?: ISpotsParams) {
         if (params?.location && params?.distanceValue) {
             const [lat, lng] = params.location.split(", ").map(Number);
 
-            console.log(lat, lng);
-            console.log(params.distanceValue); // in km
+            // console.log(lat, lng);
+            // console.log(params.distanceValue); // in km
 
             const spotsWithinLocation = await prisma.studySpot.findRaw({
                 filter: {
@@ -89,12 +98,19 @@ export default async function getStudySpots(params?: ISpotsParams) {
 
         const spots = await prisma.studySpot.findMany({
             where: query,
+            // @ts-ignore
+            skip: (page - 1) * limit,
+            take: limit,
             orderBy: {
                 createdAt: 'asc'
             }
         });
 
-        return spots;
+        const total = await prisma.studySpot.count({
+            where: query
+        })
+
+        return { data: spots, total };
     } catch (error: any) {
         throw new Error(error);
     }

@@ -87,6 +87,7 @@ model Building {
   openHours Json
   facilities String[]
   institutionId String @db.ObjectId
+  mapId String? // for mappedIn integration
 
   institution Institution @relation(fields: [institutionId], references: [id])
   studySpot StudySpot []

@@ -7,6 +7,10 @@ export default async function getBuildingById(
         const building = await prisma.building.findUnique({
             where: {
                 id: buildingId
+            },
+            include: {
+                studySpot: true,
+                institution: true
             }
         })
 

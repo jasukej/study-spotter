@@ -9,7 +9,7 @@ const Container = ({children, color}:ContainerProps) => {
   return (
     <div
         className={`
-            max-w-[2520px] 
+            max-w-[2520px]
             mx-auto
             xl:px-20
             md:px-10

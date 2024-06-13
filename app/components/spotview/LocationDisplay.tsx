@@ -1,9 +1,10 @@
 'use client'
 import { JsonValue } from '@prisma/client/runtime/library'
-import React from 'react'
+import React, { useState } from 'react'
 import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api'
 import Heading from '../Heading'
 import { Skeleton } from "@/components/ui/skeleton"
+import { Library } from '@googlemaps/js-api-loader'
 
 interface LocationDisplayProps {
     location: {
@@ -19,6 +20,8 @@ const containerStyle = {
     height: '300px',
 };
 
+const libraries:Library[] = [ "places" ];
+
 const options = {
     streetViewControl: false,
     mapTypeControl: false,
@@ -30,13 +33,14 @@ const LocationDisplay = ({
     address,
     name
 }:LocationDisplayProps) => {
+
     const { lat, lng } = location;
     const center = { lat, lng }
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-        libraries: ['places'],
+        libraries,
     })
 
     const [map, setMap] = React.useState<google.maps.Map | null>(null)
@@ -44,6 +48,7 @@ const LocationDisplay = ({
     const onLoadMap = React.useCallback((map: google.maps.Map) => {
         const bounds = new window.google.maps.LatLngBounds(center);
         map.fitBounds(bounds);
+        map.setZoom(14);
         setMap(map);
     }, [center])
 

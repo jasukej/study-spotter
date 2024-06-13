@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
-import { FaChalkboard, FaRegLightbulb, FaWheelchair, FaWifi } from 'react-icons/fa';
-import { FaPlug } from 'react-icons/fa6';
+import { FaChalkboard, FaCoffee, FaRegLightbulb, FaWheelchair, FaWifi } from 'react-icons/fa';
 import { MdAirlineSeatReclineNormal } from 'react-icons/md';
 import { RiProjector2Fill } from 'react-icons/ri';
 import { FaRestroom } from "react-icons/fa";
@@ -12,6 +11,7 @@ import { IoLibrary } from "react-icons/io5";
 import { FaParking } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
 import { FaTint } from 'react-icons/fa';
+import { MdAccessTimeFilled } from "react-icons/md";
 import { MdEmojiEvents } from "react-icons/md";
 
 interface Facility {
@@ -37,10 +37,6 @@ export const facilities = [
         icon: AiFillPrinter
     },
     {
-        label: "Restroom facilities",
-        icon: FaRestroom
-    },
-    {
         label: "Vending machines",
         icon: GrVend
     },
@@ -49,8 +45,12 @@ export const facilities = [
         icon: MdMicrowave
     },
     {
-        label: "Cafeteria/Coffee shop",
+        label: "Food outlets",
         icon: GrCafeteria
+    },
+    {
+        label: "Coffee shop",
+        icon: FaCoffee
     },
     {
         label: "Library/Book resources",
@@ -60,20 +60,20 @@ export const facilities = [
         label: "Parking available",
         icon: FaParking
     },
-    {
-        label: "Computer rooms",
-        icon: FaParking
-    },
-    {
-        label: "Lots of water dispensers",
-        icon: FaTint
-    },
     { 
-        label: "Study lounges", 
+        label: "Student lounges", 
         icon: MdAirlineSeatReclineNormal 
     },
     {
         label: "Event spaces",
         icon: MdEmojiEvents
+    },
+    {
+        label: "After hours access",
+        icon: MdAccessTimeFilled
+    },
+    {
+        label: "Printer available",
+        icon: AiFillPrinter
     },
 ];

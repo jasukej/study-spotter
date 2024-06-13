@@ -10,6 +10,7 @@ import Image from 'next/image';
 import BookmarkButton from '../BookmarkButton'
 import { Skeleton } from '@/components/ui/skeleton';
 import { DivideCircle } from 'lucide-react';
+import { getOpenHoursToday } from '@/lib/formatTime';
 
 export interface GeoJSONLocation {
     type: string;
@@ -30,6 +31,7 @@ interface SpotCardProps {
     actionLabel?: string;
     actionId?: string;
     currentUser?: User;
+    noDetail?: boolean;
 }
 
 const SpotCard = ({
@@ -38,7 +40,8 @@ const SpotCard = ({
     disabled,
     actionLabel,
     actionId,
-    currentUser
+    currentUser,
+    noDetail
 }:SpotCardProps) => {
     const router = useRouter();
     const [building, setBuilding] = useState<any>(null);
@@ -105,76 +108,6 @@ const SpotCard = ({
         fetchAverageRating();
     }, [data.id])
 
-    const getOpenHoursToday = (openHours: { [key: string]: string }): string => {
-        const daysOfWeek = [
-            "sunday", 
-            "monday", 
-            "tuesday", 
-            "wednesday", 
-            "thursday", 
-            "friday", 
-            "saturday"
-        ];
-        const today = new Date();
-        const dayIndex = today.getDay();
-        const todayDayName = daysOfWeek[dayIndex];
-        const openHoursToday = openHours[todayDayName];
-    
-        if (!openHoursToday || openHoursToday === "Closed") {
-            return 'Closed today';
-        }
-    
-        if (openHoursToday === "Open 24 hours") {
-            return 'Open 24 hours';
-        }
-    
-        const timeRanges = openHoursToday.split(',').map(range => range.trim());
-        const currentTime = today.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-    
-        let nextOpenTime: string | null = null;
-        let isOpen = false;
-    
-        for (const range of timeRanges) {
-            let [openTime, closeTime] = range.includes(' – ') ? range.split(' – ') : range.split(' - ');
-    
-            // Convert times to 24-hour format first for comparison
-            openTime = convertTo24Hour(openTime.trim());
-            closeTime = convertTo24Hour(closeTime.trim());
-    
-            if (currentTime >= openTime && currentTime <= closeTime) {
-                isOpen = true;
-                return `Closes at ${convertTo12Hour(closeTime)}`;
-            } else if (currentTime < openTime && (!nextOpenTime || openTime < nextOpenTime)) {
-                nextOpenTime = openTime;
-            }
-        }
-    
-        if (isOpen) {
-            return `Closes at ${convertTo12Hour(timeRanges[timeRanges.length - 1].split(' - ')[1].trim() || timeRanges[timeRanges.length - 1].split(' – ')[1].trim())}`;
-        } else if (nextOpenTime) {
-            return `Opens at ${convertTo12Hour(nextOpenTime)}`;
-        }
-    
-        return 'Closed today';
-    };
-    
-    const convertTo24Hour = (time: string): string => {
-        let [hour, minute] = time.match(/(\d+):(\d+)/)?.slice(1) ?? [];
-        const period = time.match(/AM|PM/i)?.[0].toLowerCase();
-        if (period === 'pm' && hour !== '12') {
-            hour = (parseInt(hour, 10) + 12).toString();
-        } else if (period === 'am' && hour === '12') {
-            hour = '00';
-        }
-        return `${hour}:${minute}`;
-    };
-    
-    const convertTo12Hour = (time: string): string => {
-        let [hour, minute] = time.split(':');
-        const period = parseInt(hour, 10) >= 12 ? 'PM' : 'AM';
-        hour = (parseInt(hour, 10) % 12 || 12).toString();
-        return `${hour}:${minute} ${period}`;
-    };    
 
     function getNoiseDescription(noiseLevel: number): string {
         const noiseLevelMap: { [key: number]: string } = {
@@ -205,6 +138,9 @@ const SpotCard = ({
     hover:shadow-block-shadow
     hover:-translate-x-2
     hover:-translate-y-2
+    active:shadow-none
+    active:translate-x-2
+    active:translate-y-2
     transform 
     ">
         <div
@@ -212,6 +148,8 @@ const SpotCard = ({
             relative
             h-48
             w-full
+            rounded-t-lg
+            overflow-hidden
         ">
             <Image 
                 fill={true}
@@ -272,6 +210,7 @@ const SpotCard = ({
                 </div>
                 }
             </div>
+            {!noDetail &&
             <div className="
                 text-neutral-500
                 flex 
@@ -307,7 +246,7 @@ const SpotCard = ({
                     "
                 />)}
 
-            </div>
+            </div>}
             <div className="flex flex-col">
                 {openStatus ?
                     <div className="
