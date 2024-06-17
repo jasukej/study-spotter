@@ -2,7 +2,7 @@
 
 import { User } from '@prisma/client'
 import Container from '../Container'
-import React from 'react'
+import React, { Suspense } from 'react'
 import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
@@ -45,7 +45,9 @@ const Navbar = ({ currentUser }:NavbarProps) => {
           sm:pr-6
           md:pr-14
         '>
-        <Categories />
+        <Suspense>
+          <Categories />
+        </Suspense>
         {currentUser &&
         <div className='hidden sm:block'>
           <InstitutionButton 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { IoLibrary } from "react-icons/io5";
 import { FaHouseUser } from "react-icons/fa";
 import { RiGitRepositoryPrivateFill } from "react-icons/ri";
@@ -68,12 +68,16 @@ const Categories = () => {
         overflow-x-auto
         ">
             {categories.map((item) => {
-                return <CategoryBox 
-                        key={item.label}
-                        label={item.label}
-                        selected={params?.get('category') === item.label}
-                        icon={item.icon}
-                        />
+                return (
+                    <Suspense>
+                        <CategoryBox 
+                            key={item.label}
+                            label={item.label}
+                            selected={params?.get('category') === item.label}
+                            icon={item.icon}
+                            />
+                    </Suspense>
+                )
             })}
         </div>
     </Container>
