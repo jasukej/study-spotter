@@ -69,9 +69,10 @@ const Categories = () => {
         ">
             {categories.map((item) => {
                 return (
-                    <Suspense>
+                    <Suspense
+                        key={item.label}
+                    >
                         <CategoryBox 
-                            key={item.label}
                             label={item.label}
                             selected={params?.get('category') === item.label}
                             icon={item.icon}
