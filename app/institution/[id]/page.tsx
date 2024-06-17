@@ -23,6 +23,7 @@ const InstitutionPage = async({ params }: { params: InstitutionPageProps }) => {
 
   return (
     <div className="relative">
+      
     <InstitutionClient
         institution={institution}
     />

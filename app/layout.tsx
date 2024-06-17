@@ -13,6 +13,7 @@ import { createTheme, MantineProvider } from '@mantine/core';
 import { ColorSchemeScript } from '@mantine/core';
 import AddReviewModal from "./components/modals/AddReviewModal";
 import SearchModal from "./components/modals/SearchModal";
+import UpdateInstitutionModal from "./components/modals/UpdateInstitutionModal";
 
 const font = Roboto({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default async function RootLayout({
           <LoginModal />
           <AddSpotModal />
           <AddReviewModal />
+          {/* <UpdateInstitutionModal /> */}
           <Navbar currentUser={currentUser} />
           <div className="bg-white pb-20 pt-24">
             {children}

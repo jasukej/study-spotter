@@ -7,12 +7,14 @@ import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
 import Categories from './Categories'
+import InstitutionButton from '../InstitutionButton'
 
 interface NavbarProps {
   currentUser?: User | null
 }
 
 const Navbar = ({ currentUser }:NavbarProps) => {
+
   return (
     <div className="fixed w-full bg-orange-main z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">
@@ -32,7 +34,27 @@ const Navbar = ({ currentUser }:NavbarProps) => {
           </div>
         </Container>
       </div>
-      <Categories />
+      <div 
+        className='
+          flex 
+          w-full 
+          bg-white 
+          justify-center
+          gap-x-6
+          items-center
+          sm:pr-6
+          md:pr-14
+        '>
+        <Categories />
+        {currentUser &&
+        <div className='hidden sm:block'>
+          <InstitutionButton 
+            institutionId='66559c06ff51564b55a92d7d'
+            // !!! should be currentUser.institutionId
+          />
+        </div>
+        }
+      </div>
     </div>
   )
 }

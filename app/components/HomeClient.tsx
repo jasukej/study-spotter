@@ -71,6 +71,8 @@ const HomeClient = ({
 
       if (activePage !== 1) {
         fetchSpots();
+      } else {
+        setSpots(allSpots);
       }
     }, [activePage, searchParams]);
     

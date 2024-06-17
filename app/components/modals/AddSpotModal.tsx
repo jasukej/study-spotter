@@ -165,7 +165,7 @@ const AddSpotModal = () => {
         .catch(() => {
             toast({ 
                 variant: "destructive",
-                title: "Study spot created."
+                title: "Study spot creation failed."
             })
         }).finally(() => {setIsLoading(false)});
         

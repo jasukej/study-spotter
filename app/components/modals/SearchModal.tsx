@@ -112,8 +112,8 @@ const SearchModal = () => {
     let bodyContent = (
         <div className="flex flex-col gap-8">
             <Heading 
-                title="It's grind o' clock!"
-                subtitle="Find your ideal study spot"
+                title="Rise and grind!"
+                subtitle="Find a study spot nearby"
             />
             <LocationSearch
                 onSelectLocation={(location) => setLocation(location)}
