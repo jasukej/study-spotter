@@ -14,7 +14,9 @@ export async function GET(
     }) 
 
     if (!buildingData) {
-        return null
+        return NextResponse.json({
+            error: 'Building not found'
+        }, { status: 404 })
     }
 
     return NextResponse.json(buildingData);
