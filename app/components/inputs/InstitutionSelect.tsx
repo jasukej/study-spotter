@@ -62,7 +62,7 @@ const InstitutionSelect = ({
                     </div>
                 </HoverCardTrigger>
                 <HoverCardContent className="text-neutral-100 bg-gray-800">
-                Select <span className="font-bold">'none'</span> if your spot does not belong to an institution
+                Select <span className="font-bold">&apos;none&apos;</span> if your spot does not belong to an institution
                 </HoverCardContent>
             </HoverCard>
         </div>

@@ -74,7 +74,7 @@ const HomeClient = ({
       } else {
         setSpots(allSpots);
       }
-    }, [activePage, searchParams]);
+    }, [activePage, searchParams, allSpots, limit]);
     
     if (spots.length == 0 && !loading) {
         return (

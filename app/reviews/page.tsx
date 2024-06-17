@@ -38,10 +38,11 @@ const ReviewsPage = async () => {
           lg:grid-cols-3
           gap-4
         ">
-          {myReviews.map((review:any) => {
+          {myReviews.map((review:any, index) => {
             console.log(review)
             return (
               <ReviewCard 
+                key={index}
                 review={review}
                 user={user}
               />

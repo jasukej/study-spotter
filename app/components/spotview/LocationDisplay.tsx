@@ -1,6 +1,6 @@
 'use client'
 import { JsonValue } from '@prisma/client/runtime/library'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api'
 import Heading from '../Heading'
 import { Skeleton } from "@/components/ui/skeleton"
@@ -35,7 +35,7 @@ const LocationDisplay = ({
 }:LocationDisplayProps) => {
 
     const { lat, lng } = location;
-    const center = { lat, lng }
+    const center = useMemo(() => ({ lat, lng }), [lat, lng])
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',

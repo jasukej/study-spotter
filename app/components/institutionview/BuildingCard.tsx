@@ -82,4 +82,6 @@ const BuildingCard = React.forwardRef<HTMLDivElement, BuildingCardProps>(({
   )
 })
 
+BuildingCard.displayName = 'BuildingCard';
+
 export default BuildingCard

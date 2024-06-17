@@ -17,11 +17,7 @@ const InstitutionButton = ({ institutionId }:InstitutionButtonProps) => {
     const pathname = usePathname();
 
     const isMainPage = pathname === '/';
-
-    if (!isMainPage) {
-        return null;
-    }
-
+    
     const onClick = useCallback(() => {
         if(!institutionId) {
             return updateInstitutionModal.onOpen();
@@ -29,6 +25,10 @@ const InstitutionButton = ({ institutionId }:InstitutionButtonProps) => {
 
         router.push(`/institution/${institutionId}`)
     }, [institutionId, updateInstitutionModal, router])
+    
+    if (!isMainPage) {
+        return null;
+    }
     
   return (
     <div>
