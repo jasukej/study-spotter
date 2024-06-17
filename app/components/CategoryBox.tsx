@@ -2,6 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback } from 'react'
 import { IconType } from 'react-icons';
+import { Suspense } from 'react';
 import qs from 'query-string';
 
 interface CategoryBoxProps {

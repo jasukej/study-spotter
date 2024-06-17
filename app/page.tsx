@@ -5,7 +5,7 @@ import getStudySpots from "./actions/getStudySpots";
 import SpotCard from "./components/studyspots/SpotCard";
 import getCurrentUser from "./actions/getCurrentUser";
 import { ISpotsParams } from "./actions/getStudySpots";
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Pagination } from '@mantine/core';
 import HomeClient from "./components/HomeClient";
 
@@ -26,12 +26,14 @@ export default async function Home({ searchParams }:HomeProps) {
 
   return (
     <Container>
-      <HomeClient 
-        totalSpots={totalSpots}
-        allSpots={spots}
-        currentUser={currentUser}
-        searchParams={searchParams}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeClient 
+          totalSpots={totalSpots}
+          allSpots={spots}
+          currentUser={currentUser}
+          searchParams={searchParams}
+        />
+      </Suspense>
     </Container>
     
   );
