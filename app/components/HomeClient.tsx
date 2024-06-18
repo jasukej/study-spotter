@@ -86,9 +86,10 @@ const HomeClient = ({
     <div className="
       flex
       flex-col
-      justify-center
+      justify-start
       gap-y-10
       items-center
+      min-h-[73vh]
     ">
     <div
       className="

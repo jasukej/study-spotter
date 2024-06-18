@@ -25,7 +25,6 @@ const Button = ({
         <button
             onClick={onClick}
             className={`
-                relative
                 disabled:opacity-70
                 disabled:cursor-not-allowed
                 md:rounded-lg
@@ -47,10 +46,12 @@ const Button = ({
             `}
         >
             {Icon && (
-                <div className="
-                    absolute 
+                <div className=" 
                     w-[30px]
                     h-[30px]
+                    flex
+                    items-center
+                    
                     ">
                     <Icon size={24} />
                 </div>

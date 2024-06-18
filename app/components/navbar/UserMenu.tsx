@@ -31,7 +31,7 @@ const UserMenu = ({ currentUser }:UserMenuProps) => {
 
     const onAdd = useCallback(() => {
         if(!currentUser) {
-            return loginModal.onOpen;
+            return loginModal.onOpen();
         }
 
         addSpotModal.onOpen()

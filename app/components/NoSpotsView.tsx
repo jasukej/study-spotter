@@ -7,28 +7,26 @@ import Button from './Button'
 const NoSpotsView = () => {
   return (
     <div className="
-        h-screen
+        h-[72vh]
         flex
         flex-col
         justify-center
+        items-center
     ">
         <Image 
             src="/images/nospotsfound.png"
-            width="100"
-            height="100"
+            width="400"
+            height="400"
             alt="No spots found."
         />
-        <div className="
-            text-neutral-500
-            text-sm
-        ">
-            No spots here.
+        
+        <div className="w-[10rem]">
+            <Button
+                label="Remove all filters"
+                onClick={() => {}}
+                outline
+            />
         </div>
-        <Button
-            label="Remove all filters"
-            onClick={() => {}}
-            outline
-        />
     </div>
   )
 }
