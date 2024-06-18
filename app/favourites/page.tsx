@@ -15,6 +15,15 @@ const FavouritesPage = async () => {
       <NoSpotsView />
     )
   }
+
+  if (!favouriteSpots || !currentUser) {
+    return (
+      <div>
+          Error page 404
+      </div>
+    )
+  }
+
   return (
     <div className="mt-8">
     <Container>

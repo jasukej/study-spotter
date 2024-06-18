@@ -8,7 +8,7 @@ import useLoginModal from '../hooks/useLoginModal';
 import ReviewCard from '../components/spotview/ReviewCard';
 
 const ReviewsPage = async () => {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser() || null;
 
   if (!user) return (
     <div>
