@@ -1,6 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { generateAndStoreEmbedding } from "@/lib/generateAndStoreEmbeddings";
 
 export async function POST(
     request: Request
@@ -47,6 +48,8 @@ export async function POST(
                 userId: currentUser.id
             }
         })
+
+        await generateAndStoreEmbedding(studySpot.id);
 
         return NextResponse.json(studySpot);
 

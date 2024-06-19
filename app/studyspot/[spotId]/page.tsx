@@ -20,6 +20,7 @@ import SpotReviews from "@/app/components/spotview/SpotReviews";
 import getReviewsBySpotId from "@/app/actions/getReviewsBySpotId";
 import Link from "next/link";
 import BackButton from "@/app/components/BackButton";
+import SpotRecommendations from "@/app/components/spotview/SpotRecommendations";
 
 interface SpotPageParams {
   spotId?: string;
@@ -231,6 +232,12 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
               reviews={reviews}
               currentUser={currentUser} 
             />
+          </div>
+          <Separator />
+          <div>
+              <SpotRecommendations 
+                spotId={id}
+              />
           </div>
           <div 
             className="

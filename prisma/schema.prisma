@@ -67,6 +67,7 @@ model StudySpot {
   category String
   openHours Json?
   address String?
+  embedding Float[]
   userId String @db.ObjectId
   institutionId String? @db.ObjectId
   buildingId String? @db.ObjectId
