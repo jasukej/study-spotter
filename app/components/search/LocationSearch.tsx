@@ -6,7 +6,7 @@ import { UseFormSetValue, FieldValues, UseFormRegister } from 'react-hook-form';
 
 const containerStyle = {
   width: '100%',
-  height: '400px'
+  height: '320px'
 };
 
 const defaultCenter = {

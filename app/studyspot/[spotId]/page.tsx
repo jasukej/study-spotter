@@ -263,7 +263,9 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
             hover:underline
             hover:underline-offset-2
             cursor-pointer">
-            <FaRegFlag size={14}/> Report this study spot
+              <Link href="https://forms.gle/PTAJKGgPAitrFJFn6">
+              <FaRegFlag size={14}/> Report this study spot
+              </Link>
           </div>
         </div>
       </div>

@@ -44,6 +44,7 @@ const Navbar = ({ currentUser }:NavbarProps) => {
           items-center
           sm:pr-6
           md:pr-14
+          xl:pr-24
         '>
         <Suspense>
           <Categories />

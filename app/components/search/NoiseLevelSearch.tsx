@@ -56,9 +56,9 @@ const NoiseLevelSearch = ({
             step={1}
             marks={[
                 { value: 1, label: 'Quiet' },
-                { value: 2, label: 'Usually Quiet' },
-                { value: 3, label: 'Moderate' },
-                { value: 4, label: 'Loud' },
+                { value: 2 },
+                { value: 3 },
+                { value: 4 },
                 { value: 5, label: 'Very Loud' },
               ]}
         />

@@ -17,22 +17,42 @@ const ImageGrid = ({
 
     // if (images.length < 5) {
         return (
-            <Container my="md" fluid>
-            <SimpleGrid 
-                cols={images.length} 
-                spacing="md">
-                {images.slice(0).map((src, index) => (
-                    <div key={index} style={{ height: PRIMARY_COL_HEIGHT, position: 'relative' }}>
+            <div>
+                <div className="sm:hidden">
+                <Container my="md" fluid>
+                <SimpleGrid 
+                    cols={1} 
+                    spacing="md">
+                    <div style={{ height: PRIMARY_COL_HEIGHT, position: 'relative' }}>
                         <Image
-                            src={src}
-                            alt={`image-${index}`}
+                            src={images[0]}
+                            alt={`image-1`}
                             fill
                             style={{ borderRadius: 'var(--mantine-radius-md)', objectFit: "cover" }}
                         />
                     </div>
-                ))}
-            </SimpleGrid>
-            </Container>
+                </SimpleGrid>
+                </Container>
+                </div>
+                <div className="hidden sm:block">
+                <Container my="md" fluid>
+                <SimpleGrid 
+                    cols={images.length} 
+                    spacing="md">
+                    {images.slice(0).map((src, index) => (
+                        <div key={index} style={{ height: PRIMARY_COL_HEIGHT, position: 'relative' }}>
+                            <Image
+                                src={src}
+                                alt={`image-${index}`}
+                                fill
+                                style={{ borderRadius: 'var(--mantine-radius-md)', objectFit: "cover" }}
+                            />
+                        </div>
+                    ))}
+                </SimpleGrid>
+                </Container>
+                </div>
+            </div>
         )
     // }
 

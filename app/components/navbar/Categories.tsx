@@ -57,6 +57,7 @@ const Categories = () => {
 
   return (
     <Container color="white">
+        <div className="relative">
         <div 
         className="
         flex
@@ -65,8 +66,14 @@ const Categories = () => {
         gap-4
         bg-white
         justify-center
-        sm:overflow-x-auto
         overflow-x-scroll
+        max-w-[100vw]
+        pl-20
+        sm:pl-0
+        sm:max-w-auto
+        whitespace-nowrap
+        scrollbar-hide
+        w-full
         ">
             {categories.map((item) => {
                 return (
@@ -81,6 +88,7 @@ const Categories = () => {
                     </Suspense>
                 )
             })}
+        </div>
         </div>
     </Container>
   )
