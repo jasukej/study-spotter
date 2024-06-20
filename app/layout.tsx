@@ -48,7 +48,7 @@ export default async function RootLayout({
         name="viewport"
         content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
       />
-      <link rel="icon" href="/favicon.png" /> 
+      <link rel="icon" href="/favicon.ico" /> 
     </Head>
       <body className={font.className}>
         <MantineProvider theme={theme}>
