@@ -43,6 +43,8 @@ const InstitutionClient = ({
                 block: 'center'
             });
         }
+        
+
     }
 
   return (
@@ -74,7 +76,14 @@ const InstitutionClient = ({
                 onMarkerClick={handleMarkerClick}/>
         </div>
 
-        <Container>
+        <div className="
+            mx-auto
+            xl:pl-20
+            md:pl-10
+            sm:px-2
+            px-4
+            pt-4
+        ">
         <div
             className="
             pt-14
@@ -121,7 +130,7 @@ const InstitutionClient = ({
                 </div>
             </div>
         </div>
-    </Container>
+    </div>
     <div className="
         hidden
         md:!block

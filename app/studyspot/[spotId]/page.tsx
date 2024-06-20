@@ -21,6 +21,7 @@ import getReviewsBySpotId from "@/app/actions/getReviewsBySpotId";
 import Link from "next/link";
 import BackButton from "@/app/components/BackButton";
 import SpotRecommendations from "@/app/components/spotview/SpotRecommendations";
+import BookmarkButton from "@/app/components/BookmarkButton";
 
 interface SpotPageParams {
   spotId?: string;
@@ -84,7 +85,7 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
       <div 
         className="
             absolute
-            top-6
+            top-28
             left-12">
             <BackButton />
         </div>
@@ -126,13 +127,25 @@ const SpotPage = async ({ params }: { params: SpotPageParams }) => {
                         justify-between"
             >
               <div className="flex flex-col gap-y-2">
-                <div
-                  className="
-                                text-4xl
-                                font-bold
-                            "
-                >
-                  {name}
+                <div className="
+                  flex 
+                  flex-row
+                  justify-between">
+                  <div
+                    className="
+                                  text-4xl
+                                  font-bold
+                              "
+                  >
+                    {name}
+                  </div>
+                  <div className="mt-1 z-0">
+                    <BookmarkButton
+                      spotId={id}
+                      large
+                      currentUser={currentUser}
+                    />
+                  </div>
                 </div>
                 <div>
                   {building && (

@@ -1,13 +1,15 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
-import SpotCard from './studyspots/SpotCard'
+import qs from 'query-string';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import SpotCard from './studyspots/SpotCard';
 import getStudySpots, { ISpotsParams } from "../actions/getStudySpots";
 import getCurrentUser from '../actions/getCurrentUser';
 import NoSpotsView from './NoSpotsView';
 import axios from 'axios';
 import { useMediaQuery } from '@mantine/hooks';
 import { Pagination } from '@mantine/core';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface HomeClientProps {
     currentUser: any;
@@ -31,6 +33,7 @@ const HomeClient = ({
   totalSpots,
   searchParams,
  }:HomeClientProps) => {
+    const router = useRouter();
     const [spots, setSpots] = useState(allSpots);
     const [activePage, setActivePage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -45,7 +48,7 @@ const HomeClient = ({
         case isSmallScreen:
           return 10;
         case isMediumScreen:
-          return 9;
+          return 10;
         case isLargeScreen:
           return 12;
         case isXLargeScreen:
@@ -54,27 +57,32 @@ const HomeClient = ({
       }
     }, [isSmallScreen, isMediumScreen, isLargeScreen, isXLargeScreen]);
 
+    const params = useSearchParams();
+
     useEffect(() => {
-      const fetchSpots = async () => {
-        setLoading(true);
-        try {
-          const response = await axios.get('/api/study-spots', {
-            params: { ...searchParams, page: activePage, limit}
-          });
-          setSpots(response.data);
-        } catch (error) {
-          console.error('Error fetching study spots.')
-        } finally {
-          setLoading(false);
-        }
+      let currentQuery = {}
+
+      if (params) {
+        currentQuery = qs.parse(params.toString());
       }
 
-      if (activePage !== 1) {
-        fetchSpots();
-      } else {
-        setSpots(allSpots);
+      const updatedQuery: any = {
+        ...currentQuery,
+        page: activePage,
+        limit
       }
-    }, [activePage, searchParams, allSpots, limit]);
+
+      const url = qs.stringifyUrl({
+        url: '/',
+        query: updatedQuery
+      }, { skipNull: true })
+
+      router.push(url);
+    }, [activePage, limit]);
+
+    useEffect(() => {
+      setSpots(allSpots);
+    }, [allSpots]);
     
     if (spots.length == 0 && !loading) {
         return (
@@ -95,7 +103,7 @@ const HomeClient = ({
       className="
         pt-24
         mt-2
-        px-2
+        sm:px-2
         grid
         grid-cols-1
         sm:grid-cols-2

@@ -23,6 +23,7 @@ const BackButton = () => {
             transition-shadow-transform
             duration-200 ease
             transform
+            hover:cursor-pointer
             hover:-translate-x-[2px]
             hover:-translate-y-[2px]
             active:translate-x-[2px]

@@ -64,6 +64,39 @@
       --input: 217.2 32.6% 17.5%;
       --ring: 212.7 26.8% 83.9%;
     }
+
+    .scroll-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-content {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-container::before,
+    .scroll-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2rem; /* Adjust width for the gradient effect */
+      pointer-events: none; /* Allow interaction with underlying content */
+    }
+
+    .scroll-container::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    }
+
+    .scroll-container::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    }
   }
 
   @layer base {

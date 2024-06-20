@@ -11,7 +11,7 @@ const getRedisUrl = () => {
 export const redis = new Redis(getRedisUrl());
 
 /**
- * Set key-value pairs for each spot's embeddings
+ * Cache key-value pairs for each spot's embeddings
  * @param studySpotId spotId as key
  * @param embedding embedding as value
  */

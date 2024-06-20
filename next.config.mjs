@@ -21,6 +21,17 @@ const nextConfig = {
             }
           ],
     },
+    experimental: {
+      serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
+    },
+    webpack: (config) => {
+      // See https://webpack.js.org/configuration/resolve/#resolvealias
+      config.externals.push({
+        sharp: 'commonjs sharp'
+      });
+      
+      return config;
+    },
 };
 
 export default nextConfig;

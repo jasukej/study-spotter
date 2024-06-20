@@ -96,9 +96,10 @@ const SpotCard = ({
     }, [data.location])
 
     useEffect(() => {
-        const fetchAverageRating = async () => {
+        const fetchAverageRating = async() => {
             try {
-                const response = await axios.get(`api/studyspots/${data.id}/averagerating`)
+                // Remember to prepend / before api else it will be relative to /studyspot
+                const response = await axios.get(`/api/studyspots/${data.id}/averagerating`)
                 setAverageRating(response.data != 'NaN' ? response.data : null)
             } catch (error) {
                 console.error('Error fetching average rating: ', error);
@@ -139,8 +140,8 @@ const SpotCard = ({
     hover:-translate-x-2
     hover:-translate-y-2
     active:shadow-none
-    active:translate-x-2
-    active:translate-y-2
+    active:translate-x-0
+    active:translate-y-0
     transform 
     ">
         <div
@@ -218,6 +219,7 @@ const SpotCard = ({
                 gap-x-2
                 text-sm
                 md:flex-col
+                md:min-h-[40px]
             ">
                 {data.buildingId && (
                     <div className="flex gap-2">

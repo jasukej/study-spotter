@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import React from 'react'
 import Button from './Button'
+import Link from 'next/link'
 
 const NoSpotsView = () => {
   return (
@@ -21,11 +22,13 @@ const NoSpotsView = () => {
         />
         
         <div className="w-[10rem]">
-            <Button
-                label="Remove all filters"
-                onClick={() => {}}
-                outline
-            />
+            <Link href="/">
+                <Button
+                    label="Remove all filters"
+                    onClick={() => {}}
+                    outline
+                />
+            </Link>
         </div>
     </div>
   )

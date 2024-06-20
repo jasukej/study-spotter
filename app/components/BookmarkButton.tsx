@@ -1,3 +1,4 @@
+'use client'
 import { User } from '@prisma/client';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -12,11 +13,14 @@ import useFavourite from '../hooks/useFavourite';
 interface BookmarkButtonProps {
     spotId: string;
     currentUser: User | null;
+    large: boolean;
 }  
 
 const BookmarkButton = ({ 
     spotId, 
-    currentUser}:BookmarkButtonProps) => {
+    currentUser,
+    large
+}:BookmarkButtonProps) => {
   
     const { hasFavourited, toggleFavourite } = useFavourite({
         spotId,
@@ -40,7 +44,7 @@ const BookmarkButton = ({
                 z-10
             ">
                 <IoBookmarkOutline
-                    size={28}
+                    size={large? 33 : 28}
                     color="white"
                 />
             </div> 
@@ -48,9 +52,9 @@ const BookmarkButton = ({
                 absolute
                 top-[3.5px]
                 right-[3.9px]
-            ">
+            ">  
                 <IoBookmark
-                    size={24}
+                    size={large ? 30 : 24}
                     // @ts-ignore
                     style={{ color: hasFavourited ? "orange" : "878c94" }}
                 />

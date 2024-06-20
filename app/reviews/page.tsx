@@ -39,7 +39,6 @@ const ReviewsPage = async () => {
           gap-4
         ">
           {myReviews.map((review:any, index) => {
-            console.log(review)
             return (
               <ReviewCard 
                 key={index}

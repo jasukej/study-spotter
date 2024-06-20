@@ -15,6 +15,12 @@ import { Slider } from '@mantine/core';
 import { CSSTransition } from 'react-transition-group';
 import NoiseLevelSearch from '../search/NoiseLevelSearch';
 import { RxCross2 } from "react-icons/rx";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 enum STEPS {
     LOCATION = 0,
@@ -129,7 +135,7 @@ const SearchModal = () => {
                 <div className="
                     font-semibold 
                     text-md
-                    w-[110px]">
+                    w-[120px]">
                         Radius: {distance ? distance : '??'} km
                 </div>
                 <Slider 
@@ -139,26 +145,35 @@ const SearchModal = () => {
                     min={0.1}
                     max={10}
                     step={0.1}
-                    color="orange"
+                    color="#F79F08"
                     marks={[
                         { value: 1 },
                         { value: 5 }, 
                         { value: 10 }
                     ]} 
                 />
-                <button 
-                    onClick={() => setDistance(undefined)}
-                    className="
-                    hover:bg-neutral-100
-                    rounded-full 
-                    p-1
-                    flex 
-                    justify-center
-                    items-center">
-                    <RxCross2 
-                        color="black"
-                        size={16}/>
-                </button>
+                <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button 
+                        onClick={() => setDistance(undefined)}
+                        className="
+                        hover:text-orange-main
+                        rounded-full 
+                        p-1
+                        flex 
+                        justify-center
+                        items-center">
+                        <RxCross2
+                            size={16}/>
+                    </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <div>Clear filter</div>
+                    </TooltipContent>
+                </Tooltip>
+                </TooltipProvider>
+               
             </div>
         </div>
     )

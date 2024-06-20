@@ -42,7 +42,7 @@ const BuildingCard = React.forwardRef<HTMLDivElement, BuildingCardProps>(({
         py-4
         px-8
         group
-        bg-white
+        ${highlighted ? 'mr-2 translate-x-1 bg-neutral-900 text-slate-200' : 'hover:mr-2 bg-white hover:translate-x-1 hover:bg-neutral-900 hover:text-slate-200'}
         border-[1px]
         border-black
         transition
@@ -50,7 +50,6 @@ const BuildingCard = React.forwardRef<HTMLDivElement, BuildingCardProps>(({
         cursor-pointer
         transition-translate
         active:opacity-[80%]
-        ${highlighted ? 'mr-2 translate-x-1 bg-neutral-900 text-slate-200' : 'hover:mr-2 hover:translate-x-1 hover:bg-neutral-900 hover:text-slate-200'}
     `}>
         <div className="flex flex-col max-w-[90%]">
             <div

@@ -95,16 +95,25 @@ export default async function getStudySpots(params?: ISpotsParams) {
                 in: filteredIds
             };
         }
+        const numericLimit = typeof limit === 'string' ? parseInt(limit, 10) : limit;
 
-        const spots = await prisma.studySpot.findMany({
+        // Constructing the final query
+        const findSpotOptions: any = {
             where: query,
-            // @ts-ignore
-            skip: (page - 1) * limit,
-            take: limit,
             orderBy: {
                 createdAt: 'asc'
             }
-        });
+        }
+
+        if (page !== undefined && limit !== undefined) {
+            // @ts-ignore
+            findSpotOptions.skip = (page - 1) * numericLimit;
+            findSpotOptions.take = numericLimit;
+        }
+
+        const spots = await prisma.studySpot.findMany(findSpotOptions);
+
+        console.log(spots);
 
         const total = await prisma.studySpot.count({
             where: query

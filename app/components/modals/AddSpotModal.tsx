@@ -148,8 +148,6 @@ const AddSpotModal = () => {
             data.location = geoJsonLocation
         }
 
-        console.log(data);
-
         setIsLoading(true);
         axios.post('/api/studyspots', data)
         .then(() => {

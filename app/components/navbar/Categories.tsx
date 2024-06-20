@@ -65,7 +65,8 @@ const Categories = () => {
         gap-4
         bg-white
         justify-center
-        overflow-x-auto
+        sm:overflow-x-auto
+        overflow-x-scroll
         ">
             {categories.map((item) => {
                 return (

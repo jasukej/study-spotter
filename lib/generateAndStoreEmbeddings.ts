@@ -1,11 +1,30 @@
 import prisma from '@/app/libs/prismadb'
-import OpenAI from 'openai';
+import PipelineSingleton from './pipelineSingleton';
+import { pipeline } from '@xenova/transformers';
 import { cacheEmbedding, getEmbeddingFromCache } from '@/lib/redis';
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize and load the embedding pipeline
+let embeddingPipeline: any;
 
+/**
+ * Uses bert-base-multilingual-uncased-sentiment to generate embeddings from input text
+ * @param text input for text -> embedding 
+ * @returns embeddings array
+ */
+async function generateEmbedding(text: string): Promise<number[]> {
+    const embeddingPipeline = await PipelineSingleton.getInstance();
+    const embeddings = await embeddingPipeline(text);
+    // Flatten nested array to single vector
+    console.log(`model generated: ${JSON.stringify(embeddings.data)}`);
+    
+    return Object.values(embeddings.data);
+}
+
+/**
+ * Get embeddings from cache, if not found initialize new embedding.
+ * Used in process of returning recommendations
+ * @param studySpotId as key for redis cache + pull spot info
+ */
 export async function generateAndStoreEmbedding(studySpotId: string) {
     const spot = await prisma.studySpot.findUnique({
         where: { id: studySpotId }
@@ -21,12 +40,9 @@ export async function generateAndStoreEmbedding(studySpotId: string) {
 
     if (!embedding) {
         const description = `${spot.name} - ${spot.description} - the spot is a ${spot.category} - on a scale of 1 to 5, noise is ${spot.noiseLevel} - the spot fits ${spot.capacity} people`;
-        const response = await openai.embeddings.create({
-            model: 'text-embedding-3-small',
-            input: description,
-        })
+        embedding = await generateEmbedding(description);
+        await cacheEmbedding(studySpotId, embedding);
 
-        embedding = response.data[0].embedding;
         console.log(`new embedding: ${embedding}`);
         await cacheEmbedding(studySpotId, embedding);
 
@@ -35,7 +51,7 @@ export async function generateAndStoreEmbedding(studySpotId: string) {
 
     await prisma.studySpot.update({
         where: { id: spot.id },
-        data: { embedding },
+        data: { embedding: embedding },
     })
 }
 

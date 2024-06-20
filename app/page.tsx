@@ -21,7 +21,7 @@ interface HomeProps {
  * @returns {ReactNode} A one-page render of study spots
  */
 export default async function Home({ searchParams }:HomeProps) {
-  const {data: spots, total: totalSpots} = await getStudySpots({ ...searchParams, page: 1, limit: 10 });
+  const {data: spots, total: totalSpots} = await getStudySpots({ ...searchParams });
   const currentUser = await getCurrentUser() || undefined;
 
   return (

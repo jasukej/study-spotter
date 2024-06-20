@@ -37,7 +37,7 @@ const InstitutionButton = ({ institutionId }:InstitutionButtonProps) => {
                 border-[2px]
                 rounded-lg
                 border-black
-                bg-yellow-light
+                bg-white
                 px-2
                 py-2
                 text-gray-900
@@ -59,7 +59,7 @@ const InstitutionButton = ({ institutionId }:InstitutionButtonProps) => {
             //@ts-ignore
             className="
                 text-gray-900 
-                group-hover:text-yellow-light
+                group-hover:text-white
                 transition
                 duration-200
             "
@@ -68,7 +68,7 @@ const InstitutionButton = ({ institutionId }:InstitutionButtonProps) => {
             className="
                 hidden 
                 md:block
-                group-hover:text-yellow-light
+                group-hover:text-white
                 gtoup-hover:text-black
             ">Explore campus</span>
         </button>
