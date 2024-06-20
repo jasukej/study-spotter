@@ -33,8 +33,8 @@ export async function GET(
             }
         }
 
-        const spotEmbedding = await getEmbeddingFromCache(spotId);
-        console.log(`Embeddings for comparison: ${JSON.stringify(spotEmbedding)}`);
+        // const spotEmbedding = await getEmbeddingFromCache(spotId);
+        // console.log(`Embeddings for comparison: ${JSON.stringify(spotEmbedding)}`);
 
         // Calculate similarity between this spot's embedding and other spots' embeddings
         const similarSpots = spots

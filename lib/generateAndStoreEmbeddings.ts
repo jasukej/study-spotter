@@ -34,19 +34,14 @@ export async function generateAndStoreEmbedding(studySpotId: string) {
         throw new Error('Study spot not found.');
     }
 
-    let embedding = await getEmbeddingFromCache(studySpotId);
+    let embedding = spot.embedding // await getEmbeddingFromCache(studySpotId);
 
     console.log(`cached embedding: ${embedding}`);
 
     if (!embedding) {
         const description = `${spot.name} - ${spot.description} - the spot is a ${spot.category} - on a scale of 1 to 5, noise is ${spot.noiseLevel} - the spot fits ${spot.capacity} people`;
         embedding = await generateEmbedding(description);
-        await cacheEmbedding(studySpotId, embedding);
-
-        console.log(`new embedding: ${embedding}`);
-        await cacheEmbedding(studySpotId, embedding);
-
-        console.log(embedding);
+        // await cacheEmbedding(studySpotId, embedding);
     }
 
     await prisma.studySpot.update({
