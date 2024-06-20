@@ -8,14 +8,24 @@ const Logo = () => {
   const router = useRouter();
 
   return (
+    <>
     <Image 
         onClick={() => router.push('/')}
         alt="Logo"
-        className="md:block cursor-pointer"
-        src="/images/Logo.png"
-        height="100"
-        width="120"
+        className="hidden md:block cursor-pointer"
+        src="/images/LogoAlt.png"
+        height="140"
+        width="150"
     />
+    <Image 
+        onClick={() => router.push('/')}
+        alt="Logo"
+        className="md:hidden cursor-pointer"
+        src="/favicon.png"
+        height="140"
+        width="50"
+    />
+    </>
   )
 }
 
