@@ -5,19 +5,19 @@
 </p>
 
 <p align="center">
-  <a href="https://shields.io" style="text-decoration: none;">
+  <a href="https://shields.io" style="text-decoration:none;">
     <img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen" />
   </a>
-  <a href="LICENSE" style="text-decoration: none;">
+  <a href="LICENSE" style="text-decoration:none;">
     <img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
   </a>
-  <a href="https://github.com/jasukej/study-spotter/issues" style="text-decoration: none;">
+  <a href="https://github.com/jasukej/study-spotter/issues" style="text-decoration:none;">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/jasukej/study-spotter" />
   </a>
-  <a href="https://github.com/jasukej/study-spotter/network" style="text-decoration: none;">
+  <a href="https://github.com/jasukej/study-spotter/network" style="text-decoration:none;">
     <img alt="GitHub forks" src="https://img.shields.io/github/forks/jasukej/study-spotter" />
   </a>
-  <a href="https://github.com/jasukej/study-spotter/stargazers" style="text-decoration: none;">
+  <a href="https://github.com/jasukej/study-spotter/stargazers" style="text-decoration:none;">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/jasukej/study-spotter" />
   </a>
 </p>
